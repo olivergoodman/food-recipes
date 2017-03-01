@@ -5,14 +5,14 @@ import json
 
 
 recipe_url = 'http://allrecipes.com/recipe/235710/chef-johns-ricotta-meatballs/?clickId=right%20rail%200&internalSource=rr_feed_recipe&referringId=235710&referringContentType=recipe'
-
+rec = 'http://allrecipes.com/recipe/26921/real-hummus/'
 # probably a better way to do this and be able to exclude plurals
 measurements = ['cup', 'cups', 'teaspoon', 'teaspoons', 'tablespoon','tablespoons','quart','quarts','gallon', 'gallons',
                 'litre','litres', 'pint', 'pints', 'pinch', 'pinches', 'pound', 'pounds', 'ounce', 'ounces' 'fluid ounce', 'fluid ounces']
 
 """takes in allrecipes.com recipe url, returns parsed HTML"""
 def process_html(url):
-    page = urllib2.urlopen(recipe_url)
+    page = urllib2.urlopen(url)
     soup = BeautifulSoup(page, "html.parser")
     return soup
 
@@ -55,7 +55,7 @@ def parse_ingredient(ln):
     lst = ln.split(' ')
     quantity = lst[0]
     measurement = []
-    if '(' in lst[1]:
+    if '(' in lst[1]: # case where measurement has parens (e.g. '(19 oz can of beans)')
         i = 1
         end = False
         while end != True: #')' not in lst[i]:
@@ -63,7 +63,7 @@ def parse_ingredient(ln):
                 end = True
             measurement.append(lst[i])
             i += 1
-        measurement = ' '.join(measurement)
+        measurement = ' '.join(measurement).translate(None,"()") #strips parens off string
     elif lst[1] in measurements:
         measurement = lst[1]
         i = 2
@@ -99,14 +99,15 @@ def format_ingredients(ing_list):
 
 
 def main(url):
-    page = process_html(recipe_url)
-    ingredients = scrape_x(page, 'ingredient') # ingredients =  scrape_x(page, 'ingredient')
-    # directions = scrape_x(page, 'direction')  # directions =  scrape_x(page, 'direction')
-    ingredients_dict = format_ingredients(ingredients)
-    return json.dumps(ingredients_dict, indent=2) #json.dumps returns pretty format dict
+    page = process_html(url)
+    # ingredients = scrape_x(page, 'ingredient') # ingredients =  scrape_x(page, 'ingredient')
+    # ingredients_dict = format_ingredients(ingredients)
+    directions = scrape_x(page, 'direction')  # directions =  scrape_x(page, 'direction')
 
+    # return json.dumps(ingredients_dict, indent=2) #json.dumps returns pretty format dict
+    return directions
 
-print main(recipe_url)
+print main(rec)
 
 # print parse_ingredient('1 (28 ounce) jar marinara sauce')
 # print parse_ingredient('1 cup chopped onion')
