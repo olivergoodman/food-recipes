@@ -3,9 +3,10 @@ from bs4 import BeautifulSoup
 import urllib2
 import json
 
-
+# test urls
 recipe_url = 'http://allrecipes.com/recipe/235710/chef-johns-ricotta-meatballs/?clickId=right%20rail%200&internalSource=rr_feed_recipe&referringId=235710&referringContentType=recipe'
 rec = 'http://allrecipes.com/recipe/26921/real-hummus/'
+
 # probably a better way to do this and be able to exclude plurals
 measurements = ['cup', 'cups', 'teaspoon', 'teaspoons', 'tablespoon','tablespoons','quart','quarts','gallon', 'gallons',
                 'litre','litres', 'pint', 'pints', 'pinch', 'pinches', 'pound', 'pounds', 'ounce', 'ounces' 'fluid ounce', 'fluid ounces']
@@ -100,12 +101,12 @@ def format_ingredients(ing_list):
 
 def main(url):
     page = process_html(url)
-    # ingredients = scrape_x(page, 'ingredient') # ingredients =  scrape_x(page, 'ingredient')
-    # ingredients_dict = format_ingredients(ingredients)
-    directions = scrape_x(page, 'direction')  # directions =  scrape_x(page, 'direction')
+    ingredients = scrape_x(page, 'ingredient') # ingredients =  scrape_x(page, 'ingredient')
+    ingredients_dict = format_ingredients(ingredients)
+    # directions = scrape_x(page, 'direction')  # directions =  scrape_x(page, 'direction')
 
-    # return json.dumps(ingredients_dict, indent=2) #json.dumps returns pretty format dict
-    return directions
+    return json.dumps(ingredients_dict, indent=2) #json.dumps returns pretty format dict
+    # return directions
 
 print main(rec)
 
