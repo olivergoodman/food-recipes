@@ -62,7 +62,7 @@ preparation = ['bake', 'barbecue', 'baste', 'beat', 'bind', 'blanch', 'blend', '
 'sterilize', 'stew', 'stir', 'stir-fry', 'strain', 'thicken', 'toast', 'toss', 'truss', 
 'unmold', 'vent', 'whip']
 
-Each sentense is a step.
+# Each sentense is a step.
 
 # Step:
 # dic = {1: {'ingredient':[
