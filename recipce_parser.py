@@ -11,6 +11,88 @@ rec = 'http://allrecipes.com/recipe/26921/real-hummus/'
 measurements = ['cup', 'cups', 'teaspoon', 'teaspoons', 'tablespoon','tablespoons','quart','quarts','gallon', 'gallons',
                 'litre','litres', 'pint', 'pints', 'pinch', 'pinches', 'pound', 'pounds', 'ounce', 'ounces' 'fluid ounce', 'fluid ounces']
 
+# cooking_method_terms
+cooking_methods = ['AL DENTE', 'BAKE', 'BARBECUE', 'BASTE', 'BATTER', 'BEAT', 'BLANCH', 
+'BLEND', 'BOIL', 'BROIL', 'CARAMELIZE', 'CHOP', 'CLARIFY', 'CREAM', 'CURE', 'DEGLAZE',
+ 'DEGREASE', 'DICE', 'DISSOLVE', 'DREDGE', 'DRIZZLE', 'DUST', 'FILLET', 'FLAKE', 
+ 'FLAMBE', 'FOLD', 'FRICASSEE', 'FRY', 'GARNISH', 'GLAZE', 'GRATE', 'GRATIN', 'GRILL', 
+ 'GRIND', 'JULIENNE', 'KNEAD', 'LUKEWARM', 'MARINATE', 'MEUNIERE', 'MINCE', 'MIX', 
+ 'PAN-BROIL', 'PAN-FRY', 'PARBOIL', 'PARE', 'PEEL', 'PICKLE', 'PINCH', 'PIT', 'PLANKED', 
+ 'PLUMP', 'POACH', 'PUREE', 'REDUCE', 'REFRESH', 'RENDER', 'ROAST', 'SAUTE', 'SCALD', 
+ 'SCALLOP', 'SCORE', 'SEAR', 'SHRED', 'SIFT', 'SIMMER', 'SKIM', 'STEAM', 'STEEP', 
+ 'STERILIZE', 'STEW', 'STIR', 'TOSS', 'TRUSS', 'WHIP']
+
+# simple cooking tool terms
+cooking_tools_one = ['apron', 'baster', 'blender', 'carafe', 'colander', 'cookbook', 
+'corer', 'crock', 'cutlery', 'fork', 'grater', 'griddle', 'grinder', 'infuser', 
+'juicer', 'kettle', 'knife', 'ladle', 'lid', 'mandolin', 'mold', 'oven', 'pan', 
+'peeler', 'percolator', 'pitcher', 'platter', 'poacher', 'pot', 'ramekin', 
+'refrigerator', 'ricer', 'roaster', 'scissors', 'shears', 'sieve', 'skewer', 'skillet', 
+'slicer', 'spoon', 'steamer', 'stockpot', 'stove', 'strainer', 'tablespoon', 'teakettle', 
+'teaspoon', 'thermometer', 'toaster', 'tongs', 'trivet', 'utensils', 'whisk', 'wok', 
+'zester']
+
+# complex cooking tool terms
+cooking_tools_two = ['baking sheet', 'barbecue grill', 'basting brush', 'bread basket', 
+'butcher block', 'can opener', 'charcoal grill', 'cheese cloth', 'coffee maker', 
+'cookie cutter', 'cookie press', 'cookie sheet', 'cooling rack', 'custard cup', 
+'cutting board', 'egg beater', 'egg timer', 'espresso machine', 'food processor', 
+'garlic press', 'hamburger press', 'hand mixer', 'ice bucket', 'ice cream scoop', 
+'icing spatula', 'jar opener', 'measuring cup', 'mixing bowl', 'mortar and pestle', 
+'nut cracker', 'parchment paper', 'pastry bag', 'pepper mill', 'pizza cutter', 
+'pizza stone', 'popcorn popper', 'pressure cooker', 'raclette grill', 'rice cooker', 
+'rolling pin', 'salad bowl', 'salad spinner', 'salt shaker', 'sharpening steel', 
+'slow cooker', 'souffle dish', 'spice rack', 'vegetable bin', 'waffle iron', 
+'water filter', 'yogurt maker']
+
+descriptors = ['Fresh', 'Natural', 'Pure', 'Traditional', 'Original', 'Authentic', 'Real', 'Genuine',
+'Home(.*)made', 'Farmhouse', 'Hand(.*)made', 'Premium', 'Finest', 'Quality', 'Best']
+
+preparation = ['bake', 'barbecue', 'baste', 'beat', 'bind', 'blanch', 'blend', 'boil', 
+'bone', 'braise', 'bread', 'broil', 'brown', 'brush', 'candy', 'caramelize', 'chill', 
+'chop', 'clarify', 'coat', 'coddle', 'combine', 'cool', 'core', 'cream', 'crush', 
+'cube', 'cut', 'cut in', 'deep-fry', 'devein', 'dice', 'dissolve', 'dot', 'drain', 
+'dredge', 'dress', 'dust', 'elevate', 'flake', 'flour', 'flute', 'fold', 'fricassee', 
+'fry', 'garnish', 'glaze', 'grate', 'grease', 'grill', 'grind', 'hull', 'julienne', 
+'knead', 'marinate', 'mash', 'melt', 'mince', 'mix', 'mold', 'panboil', 'panfry', 
+'parboil', 'pare', 'peel', 'pit', 'poach', 'preheat', 'punch down', 'puree', 'quarter', 
+'reconstitute', 'reduce', 'refresh', 'roast', 'roll', 'rotate', 'saute', 'scald', 
+'scallop', 'score', 'sear', 'season', 'section', 'shape', 'shell', 'shield', 'shred', 
+'sift', 'simmer', 'skim', 'slice', 'sliver', 'snip', 'sprinkle', 'steam', 'steep', 
+'sterilize', 'stew', 'stir', 'stir-fry', 'strain', 'thicken', 'toast', 'toss', 'truss', 
+'unmold', 'vent', 'whip']
+
+Each sentense is a step.
+
+# Step:
+# dic = {1: {'ingredient':[
+#                         {'Name': ...,
+#                          'Quantity': ..., 
+#                          'Measurement': ...,
+#                          'Descriptor': ...,
+#                          'Preparation': ...,
+#                          },
+#                          {'Name': ...,
+#                          'Quantity': ..., 
+#                          'Measurement': ...,
+#                          'Descriptor': ...,
+#                          'Preparation': ...,
+#                          },
+#                          ...
+#                          ]
+#             'tool': ...,
+#             'method': ...,
+#             'time': ...,
+#             },
+#         2: {},
+#     }
+
+
+# 1. Descriptor, Preparation, Time
+# 2. Step
+# 3. Transform
+
+
 """takes in allrecipes.com recipe url, returns parsed HTML"""
 def process_html(url):
     page = urllib2.urlopen(url)
