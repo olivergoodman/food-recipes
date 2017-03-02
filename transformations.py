@@ -4,12 +4,10 @@
 # 	- cooking method (ex. from bake to stir-fry)
 
 # NOTE: tranformations should change both the list of ingredients and the ingredients inside steps
-
-# should take in the steps -- broken up by sentence in directions
 #	return format: 
 {
 	"cooking tools": ["", ""],
-	"methods": "",
+	"methods": ["", ""],
 	"ingredients": [
 	    {
 			"preparation": "",
@@ -43,6 +41,7 @@
 # veggie sub:
 meats = ['chicken', 'beef', 'turkey', 'pork', 'venison']
 
+# should take in the steps -- broken up by sentence in directions
 def subsitute_meat_for_veg(direction, replace_this):
 	"""
 	given a direction (string) and meat object to replace,
