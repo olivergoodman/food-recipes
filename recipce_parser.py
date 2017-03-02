@@ -100,25 +100,6 @@ def process_html(url):
     soup = BeautifulSoup(page, "html.parser")
     return soup
 
-def scrape_ingredients(url):
-    # page = urllib2.urlopen(url)
-    # soup = BeautifulSoup(page, "html.parser")
-    soup = url
-    ingredients = soup.find_all("span", itemprop="ingredients")
-    ing_list = []
-    for elt in ingredients:
-        ing_list.append(elt.string) # .encode('ascii')
-    return ing_list
-
-def scrape_directions(url):
-    soup = url
-    directions = soup.find_all("span", class_='recipe-directions__list--item')
-    direction_list = []
-    for drxn in directions:
-        direction_list.append(drxn.string) #.encode('ascii')
-    return direction_list
-# print scrape_ingredients(recipe_url)
-
 """takes in prettified recipe url, returns either list of ingredients or directions"""
 def scrape_x(url, component): #either ingredient or direction
     soup = url
@@ -133,32 +114,6 @@ def scrape_x(url, component): #either ingredient or direction
         if elt.string:
             item_lst.append(elt.string.encode('ascii')) #.encode('ascii')
     return item_lst
-
-# # parses a single line of ingredient... format: quantity measurement item
-# def parse_ingredient1(ln):
-#     lst = ln.split(' ')
-#     quantity = lst[0]
-#     measurement = []
-#     if '(' in lst[1]: # case where measurement has parens (e.g. '(19 oz can of beans)')
-#         i = 1
-#         end = False
-#         while end != True: #')' not in lst[i]:
-#             if ')' in lst[i]:
-#                 end = True
-#             measurement.append(lst[i])
-#             i += 1
-#         measurement = ' '.join(measurement).translate(None,"()") #strips parens off string
-#     elif '/' in lst[1]:
-#         quantity += ' {0}'.format(lst[1])
-#         i = 2
-#     elif lst[1] in measurements:
-#         measurement = lst[1]
-#         i = 2
-#     else:
-#         measurement = ''
-#         i = 1
-#     item = ' '.join(lst[i:])
-#     return quantity, measurement, item
 
 def parse_ingredient(ln):
     if ln.endswith("to taste"):
@@ -218,17 +173,31 @@ def format_ingredients(ing_list):
 
     return recipe_dict
 
+def print_directions(lst):
+    directions = lst
+    count = 1
+    for i in directions:
+        print "{0}) {1}\n".format(count,i)
+        count += 1
+    return 0
+
+# splits direcitons by sentences + flattens list/ removes leading spaces
+def parse_directions(dir_list):
+    d_list = []
+    for i in range(len(dir_list)):
+        d_list.append(dir_list[i].split('.'))
+    return [item.lstrip() for sublist in d_list for item in sublist if item]
 
 def main(url):
     page = process_html(url)
     ingredients = scrape_x(page, 'ingredient') # ingredients =  scrape_x(page, 'ingredient')
     ingredients_dict = format_ingredients(ingredients)
-    # directions = scrape_x(page, 'direction')  # directions =  scrape_x(page, 'direction')
+    directions = parse_directions(scrape_x(page, 'direction'))  # directions =  scrape_x(page, 'direction')
 
-    return json.dumps(ingredients_dict, indent=2) #json.dumps returns pretty format dict
-    # return directions
+    # return json.dumps(ingredients_dict, indent=2) #json.dumps returns pretty format dict
+    return print_directions(directions)
 
-print main(recipe_url)
-
+dr = main(recipe_url)
+# print print_directions(parse_directions(dr))
 # print parse_ingredient1('1 1/2 (28 ounce) jar marinara sauce')
 # print parse_ingredient1('1 cup chopped onion')
