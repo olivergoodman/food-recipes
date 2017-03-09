@@ -5,6 +5,7 @@
 import re
 import random
 import copy
+from veggies import veg2meat, meat2veg
 # NOTE: tranformations should change both the list of ingredients and the ingredients inside steps
 #	return format: 
 parsed_vals = {
@@ -24,17 +25,24 @@ parsed_vals = {
 			"measurement": "19 ounce",
 			"name": "can garbanzo beans, half the liquid reserved",
 			"quantity": "1"
+	    },
+	    {
+			"preparation": "",
+			"descriptor": "",
+			"measurement": "lb",
+			"name": "chicken",
+			"quantity": "1"
 	    }],
 	"steps": [ 
 		{
 			"method": "",
-			"ingredients": [],
-			"tools": ["",""], 
+			"ingredients": ['garlic', 'chicken'],
+			"tools": ["knife","spoon"], 
 			"text": ""
 		},
 		{
 			"method": "",
-			"ingredients": [],
+			"ingredients": ['beans', 'potatos'],
 			"tools": [], 
 			"text": "test text"
 		}]
@@ -42,27 +50,57 @@ parsed_vals = {
 
 
 # ------------------------------------------------------------------------------------------------------------------------
+# # veggie sub:
+# meats = ['chicken', 'beef', 'turkey', 'pork', 'venison']
+
+# # should take in the steps -- broken up by sentence in directions
+# def subsitute_meat_for_veg(direction, replace_this):
+# 	"""
+# 	given a direction (string) and meat object to replace,
+# 	returns direction with tofu subsituted and new tofu ingredient object
+# 	"""
+
+# 	tofu = {
+# 			'name': 'tofu',
+# 			'quantity': replace_this['quantity'],
+# 			'measurement': replace_this['measurement']
+# 			}
+# 	for meat in meats:
+# 		if meat in direction:
+# 			direction = direction.replace(replace_this['name'], tofu['name'])
+
+# 	return direction, tofu
+
 
 # veggie sub:
-meats = ['chicken', 'beef', 'turkey', 'pork', 'venison']
+meats = ['chicken', 'beef', 'turkey', 'pork', 'venison', 'salmon', 'tuna', 'halibut', '']
 
 # should take in the steps -- broken up by sentence in directions
-def subsitute_meat_for_veg(direction, replace_this):
+def transform_to_vegetarian(recipe):
 	"""
-	given a direction (string) and meat object to replace,
-	returns direction with tofu subsituted and new tofu ingredient object
+	given a recipe (in JSON format above),
+	returns recipe JSON with both list of ingredients and ingredients in steps changed
 	"""
 
-	tofu = {
-			'name': 'tofu',
-			'quantity': replace_this['quantity'],
-			'measurement': replace_this['measurement']
-			}
-	for meat in meats:
-		if meat in direction:
-			direction = direction.replace(replace_this['name'], tofu['name'])
+	new_recipe = copy.deepcopy(recipe)
 
-	return direction, tofu
+	# update list of ingredients
+	for i, ingredient in enumerate(new_recipe['ingredients']):
+		name = ingredient['name']
+		if name in meat2veg:
+			new_recipe['ingredients'][i]['name'] = meat2veg[name]
+
+	# update list of ingredients in steps
+	for i, step in enumerate(new_recipe['steps']):
+		print step, i
+
+
+
+	# for meat in meats:
+	# 	if meat in direction:
+	# 		direction = direction.replace(replace_this['name'], tofu['name'])
+
+	return new_recipe
 
 
 
@@ -271,15 +309,9 @@ def replace_methods():
 # ------------------------------------------------------------------------------------------------------------------------
 
 #test
-transform_to_healthy()
+print '\n**** Meat 2 Vegetarian transformation ****\n'
+print transform_to_vegetarian(parsed_vals)
+
+print '\n********\n'
+
 replace_methods()
-str = "Fry chicken in oil. Then sprinkle with salt."
-chicken = {
-			'name': 'chicken',
-			'quantity': 10,
-			'measurement': 'ounces'
-			}
-
-
-new_direction, tofu = subsitute_meat_for_veg(str, chicken)
-#print new_direction, tofu
