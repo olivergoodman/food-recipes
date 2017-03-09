@@ -81,14 +81,14 @@ healthy_grains = ['oat cereal', 'wild rice', 'oatmeal', 'whole rye', 'buckwheat'
 unhealthy_grains = ['macaroni', 'noodles', 'spaghetti', 'white rice', 'white bread', 'regular white pasta']
 healthy_sugars = ['real fruit jam', 'fruit juice concentrates', 'monk fruit extract', 'cane sugar', 'molasses', 'brown rice syrup' 'stevia', 'honey', 'maple syrup', 'agave syrup', 'coconut sugar', 'date sugar', 'sugar alcohols', 'brown sugar']
 unhealthy_sugars = ['aspartame', 'acesulfame K', 'sucralose', 'white sugar', 'corn syrup', 'chocolate syrup']
-healthy_methods = []
+healthy_methods = ["boil"]
 unhealthy_methods = ["fry"]
 
 # print return_val["steps"][1]["text"]
 def transform_to_healthy():
 	vals = {
 	"tools": ["", ""],
-	"methods": ["", ""],
+	"methods": ["fry", "roast"],
 	"ingredients": [
 	    {
 			"preparation": "",
@@ -106,16 +106,16 @@ def transform_to_healthy():
 	    }],
 	"steps": [ 
 		{
-			"method": "",
+			"method": "fry",
 			"ingredients": ["spaghetti"],
 			"tools": ["",""], 
-			"text": "boil spaghetti until it turns soft"
+			"text": "fry spaghetti until it turns soft"
 		},
 		{
-			"method": "",
+			"method": "roast",
 			"ingredients": ["beef"],
 			"tools": [], 
-			"text": "cook beef in pan"
+			"text": "roast beef in pan"
 		}]
 }
 	myrec = copy.deepcopy(vals)
@@ -191,19 +191,88 @@ def transform_to_healthy():
 					modtext["ingredients"].remove(mytemp)
 					modtext["ingredients"].append(each["name"])
 
-	#myrec["steps"][1]["text"] = "ayyylmao"
+	for each in myrec["steps"]:
+		if each["method"] in unhealthy_methods:
+			tempmeth = each["method"]
+			mylen = len(healthy_methods)-1
+			kuroko = random.randint(0,mylen)
+			each["method"] = healthy_methods[kuroko]
+			each["text"] =  each["text"].replace(tempmeth, each["method"])
+			for mymeths in myrec["methods"]:
+				if mymeths == tempmeth:
+					myrec["methods"].remove(tempmeth)
+					myrec["methods"].append(each["method"])
+
+	
+	print(vals["steps"][0]["text"])
+	print(myrec["steps"][0]["text"])
+	print(vals["steps"][0]["ingredients"])
+	print(myrec["steps"][0]["ingredients"])
 	print(vals["steps"][1]["text"])
 	print(myrec["steps"][1]["text"])
 	print(vals["steps"][1]["ingredients"])
 	print(myrec["steps"][1]["ingredients"])
+	print(vals["methods"])
+	print(myrec["methods"])
 
 	return 
 
+def replace_methods():
+# takes in vals, oldm, newm
+	vals = {
+	"tools": ["", ""],
+	"methods": ["fry", "roast"],
+	"ingredients": [
+	    {
+			"preparation": "",
+			"descriptor": "",
+			"measurement": "pound",
+			"name": "beef",
+			"quantity": "1"
+	    },
+	    {
+			"preparation": "",
+			"descriptor": "",
+			"measurement": "pack",
+			"name": "spaghetti",
+			"quantity": "1"
+	    }],
+	"steps": [ 
+		{
+			"method": "fry",
+			"ingredients": ["spaghetti"],
+			"tools": ["",""], 
+			"text": "fry spaghetti until it turns soft"
+		},
+		{
+			"method": "roast",
+			"ingredients": ["beef"],
+			"tools": [], 
+			"text": "roast beef in pan"
+		}]
+}
+	oldm = "roast"
+	newm = "barbeque"
+	myrec = copy.deepcopy(vals)
+	for each in myrec["steps"]:
+		if each["method"] == oldm:
+			each["method"] = newm
+			each["text"] =  each["text"].replace(oldm, newm)
+	for each in myrec["methods"]:
+		if each == oldm:
+			myrec["methods"].remove(oldm)
+			myrec["methods"].append(newm)
+	print(vals["methods"])
+	print(myrec["methods"])
+	print(vals["steps"][1]["text"])
+	print(myrec["steps"][1]["text"])
+	return
 
 # ------------------------------------------------------------------------------------------------------------------------
 
 #test
 transform_to_healthy()
+replace_methods()
 str = "Fry chicken in oil. Then sprinkle with salt."
 chicken = {
 			'name': 'chicken',
