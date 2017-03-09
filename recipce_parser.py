@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 import urllib2
 import json
 import re
+import string
+import coding_util as cu
 
 # test urls
 recipe_url = 'http://allrecipes.com/recipe/235710/chef-johns-ricotta-meatballs/?clickId=right%20rail%200&internalSource=rr_feed_recipe&referringId=235710&referringContentType=recipe'
@@ -21,10 +23,10 @@ cooking_methods = ['AL DENTE', 'BAKE', 'BARBECUE', 'BASTE', 'BATTER', 'BEAT', 'B
  'PAN-BROIL', 'PAN-FRY', 'PARBOIL', 'PARE', 'PEEL', 'PICKLE', 'PINCH', 'PIT', 'PLANKED', 
  'PLUMP', 'POACH', 'PUREE', 'REDUCE', 'REFRESH', 'RENDER', 'ROAST', 'SAUTE', 'SCALD', 
  'SCALLOP', 'SCORE', 'SEAR', 'SHRED', 'SIFT', 'SIMMER', 'SKIM', 'STEAM', 'STEEP', 
- 'STERILIZE', 'STEW', 'STIR', 'TOSS', 'TRUSS', 'WHIP']
+ 'STERILIZE', 'STEW', 'STIR', 'TOSS', 'TRUSS', 'WHIP', 'WHISK']
 
 # simple cooking tool terms
-cooking_tools_one = ['apron', 'baster', 'blender', 'carafe', 'colander', 'cookbook', 
+cooking_tools_one = ['apron', 'baster', 'blender', 'bowl', 'carafe', 'colander', 'cookbook',
 'corer', 'crock', 'cutlery', 'fork', 'grater', 'griddle', 'grinder', 'infuser', 
 'juicer', 'kettle', 'knife', 'ladle', 'lid', 'mandolin', 'mold', 'oven', 'pan', 
 'peeler', 'percolator', 'pitcher', 'platter', 'poacher', 'pot', 'ramekin', 
@@ -61,7 +63,7 @@ preparation = ['bake', 'barbecue', 'baste', 'beat', 'bind', 'blanch', 'blend', '
 'scallop', 'score', 'sear', 'season', 'section', 'shape', 'shell', 'shield', 'shred', 
 'sift', 'simmer', 'skim', 'slice', 'sliver', 'snip', 'sprinkle', 'steam', 'steep', 
 'sterilize', 'stew', 'stir', 'stir-fry', 'strain', 'thicken', 'toast', 'toss', 'truss', 
-'unmold', 'vent', 'whip']
+'unmold', 'vent', 'whip','whisk']
 
 # Each sentense is a step.
 
@@ -116,13 +118,18 @@ def scrape_x(url, component): #either ingredient or direction
     return item_lst
 
 def parse_ingredient(ln):
+    """
+    :param ln: an ingredient in format quantity, measurement, ingredient name, descriptor
+    :rtype : 4 strings: item_name, quantity, measurement, descriptor
+    """
     if ln.endswith("to taste"):
-
+        # need o add descriptor handling
         quantity = "to taste"
-        measurement = []
+        measurement = ''
+        descriptor =''
         item  = ln[:-9]
 
-        return quantity, measurement, item
+        return item, quantity, measurement, descriptor
     lst = ln.split(' ')
     quantity = lst[0]
     measurement = []
@@ -138,7 +145,7 @@ def parse_ingredient(ln):
                 end = True
             measurement.append(lst[k])
             k += 1
-        measurement = ' '.join(measurement).translate(None,"()") #strips parens off string
+        measurement = ' '.join(measurement).translate(None,string.punctuation) #strips parens off string
         i = k
     elif lst[i] in measurements:
         measurement = lst[i]
@@ -146,10 +153,16 @@ def parse_ingredient(ln):
     else:
         measurement = ''
         i = 1
-    item = ' '.join(lst[i:])
-    return quantity, measurement, item
+    item_desc = ' '.join(lst[i:]).split(',')
+    if len(item_desc) > 1:
+        item = item_desc[0]
+        descriptor = item_desc[1].lstrip()
+    else:
+        item = item_desc[0]
+        descriptor = ''
+    return item, quantity, measurement, descriptor
 
-def format_ingredients(ing_list):
+def ingredients_to_dict(ing_list):
     # need to include cooking methods/ cooking tools pulled directions.... TB done later
     # takes list of ingredients as input, returns dictionary of ingredients, cooking method, cooking tools formatted as such:
     # format dict: {"ingredients": [{
@@ -165,19 +178,34 @@ def format_ingredients(ing_list):
     recipe_dict = {"ingredients":[], "cooking method":'', "cooking tools":[]}
     for ingredient in ing_list:
         i_dict = {"name": '', "quantity":'', "measurement": '', "descriptor":'', "preparation":''}
-        q,m,i = parse_ingredient(ingredient) #quantity, measurement, item
-        i_dict["name"] = i
-        i_dict["quantity"] = q
-        i_dict["measurement"] = m
+        vals = parse_ingredient(ingredient) # item, quantity, measurement, descriptor
+        # print vals
+        i_dict["name"] = vals[0]
+        i_dict["quantity"] = vals[1]
+        i_dict["measurement"] = vals[2]
+        i_dict["descriptor"] = vals[3]
         recipe_dict["ingredients"].append(i_dict)
-
     return recipe_dict
+
+def ingredients_to_lists(ing_list):
+    names = []
+    quantities = []
+    measurements =[]
+    descriptors = []
+    for ing in ing_list:
+        vals= parse_ingredient(ing) # (n,m,q,d)
+        names.append(vals[0])
+        measurements.append(vals[1])
+        quantities.append(vals[2])
+        descriptors.append(vals[3])
+
+    return names,quantities,measurements, descriptors
 
 def print_directions(lst):
     directions = lst
     count = 1
     for i in directions:
-        print "{0}) {1}\n".format(count,i)
+        print "{0}) {1}".format(count,i)
         count += 1
     return 0
 
@@ -187,17 +215,94 @@ def parse_directions(dir_list):
     for i in range(len(dir_list)):
         d_list.append(dir_list[i].split('.'))
     return [item.lstrip() for sublist in d_list for item in sublist if item]
+#   return format: dict = {'tools':[str],'methods':[str], 'ingredients':[{n,q,m,d,p}...], 'steps': [{'method':'', 'ingredients':[str],'tools':[str], 'text':''}
+# parsed_vals = {
+# 	"tools": ["", ""],
+# 	"methods": ["", ""],
+# 	"ingredients": [
+# 	    {
+# 			"preparation": "",
+# 			"descriptor": "",
+# 			"measurement": "",
+# 			"name": "clove garlic",
+# 			"quantity": "1"
+# 	    },
+# 	    {'name':""...}],
+# 	"steps": [
+# 		{
+# 			"method": "",
+# 			"ingredients": ['garlic', 'chicken'],
+# 			"tools": ["knife","spoon"],
+# 			"text": ""
+# 		},
+# 		{...}]
+# }
+
+# iterate through steps in direction list, for each step, get the ingredient(s) involved, tools/ methods and put in dict
+# builds new direction dict by getting relevant ingredient info by index in each respective list
+def steps_to_dict(d_list,i_lst):
+    # issues: searching for compound-word ingredients in directions (not typically referenced by exact name)
+    #       can be solved in initial parsing... maybe search for combinations of bigrams?
+    names, quants, measurements, descriptors = ingredients_to_lists(i_lst)
+    drxn_dict = {'tools':[], 'methods':[],'ingredients':[], 'steps':[]}
+    step_count = 1
+    for dir in d_list:
+        # print "{0}:".format(step_count)
+# dict = {'tools':[str],'methods':[str], 'ingredients':[{n,q,m,d,p}...], 'steps': [{'method':'', 'ingredients':[str],'tools':[str], 'text':''}
+
+        dir_cleaned = dir.translate(None, string.punctuation)
+        ingreds = cu.find_term(dir_cleaned, names)
+        tools = cu.find_term(dir_cleaned, cooking_tools_one) + cu.find_term(dir_cleaned, cooking_tools_two)
+        methods = cu.find_term(dir_cleaned, cooking_methods)
+
+        for t in tools:
+            if t not in drxn_dict['tools']:
+                drxn_dict['tools'].append(t)
+        for m in methods:
+            if m not in drxn_dict['methods']:
+                drxn_dict['methods'].append(m)
+        # add to steps
+        step = {'method':[], 'ingredients':[],'tools':[], 'text':''}
+        step['method'] = methods
+        step['ingredients'] = ingreds
+        step['tools'] = tools
+        step['text'] = dir
+        drxn_dict['steps'].append(step)
+        # in a single step:
+        # get ingredients+ relevant info (name, quant,descriptor*, prep*)
+        # get tools involved
+        # get cooking method used
+        for i in ingreds:
+            if i not in drxn_dict['ingredients']:
+                new_ing = {'name':'', 'quantity':'','measurement':'','descriptor':'', 'preparation':''}
+                ing_index = names.index(i)
+                new_ing['name'] = names[ing_index]
+                new_ing['quantity'] = quants[ing_index]
+                new_ing['measurement'] = measurements[ing_index]
+                new_ing['descriptor'] = descriptors[ing_index]
+                drxn_dict['ingredients'].append(new_ing)
+        step_count += 1
+
+    return drxn_dict
 
 def main(url):
     page = process_html(url)
     ingredients = scrape_x(page, 'ingredient') # ingredients =  scrape_x(page, 'ingredient')
-    ingredients_dict = format_ingredients(ingredients)
+    ingredients_dict = ingredients_to_dict(ingredients)
+    names,quants,measurements, descriptors = ingredients_to_lists(ingredients)
     directions = parse_directions(scrape_x(page, 'direction'))  # directions =  scrape_x(page, 'direction')
+    steps_dict = steps_to_dict(directions, ingredients)
 
+
+    print print_directions(directions)
+    return json.dumps(steps_dict, indent=2)
     # return json.dumps(ingredients_dict, indent=2) #json.dumps returns pretty format dict
-    return print_directions(directions)
 
-dr = main(recipe_url)
+dr = main(rec)
+print dr
+
+# print re.search('whisk',"Whisk together the egg and milk in a shallow bowl; set aside", re.IGNORECASE)
 # print print_directions(parse_directions(dr))
 # print parse_ingredient1('1 1/2 (28 ounce) jar marinara sauce')
-# print parse_ingredient1('1 cup chopped onion')
+# print parse_ingredient('1 (4 ounce) packet saltine crackers, crushed')
+
