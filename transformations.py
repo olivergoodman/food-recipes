@@ -85,39 +85,7 @@ healthy_methods = ["boil"]
 unhealthy_methods = ["fry"]
 
 # print return_val["steps"][1]["text"]
-def transform_to_healthy():
-	vals = {
-	"tools": ["", ""],
-	"methods": ["fry", "roast"],
-	"ingredients": [
-	    {
-			"preparation": "",
-			"descriptor": "",
-			"measurement": "pound",
-			"name": "beef",
-			"quantity": "1"
-	    },
-	    {
-			"preparation": "",
-			"descriptor": "",
-			"measurement": "pack",
-			"name": "spaghetti",
-			"quantity": "1"
-	    }],
-	"steps": [ 
-		{
-			"method": "fry",
-			"ingredients": ["spaghetti"],
-			"tools": ["",""], 
-			"text": "fry spaghetti until it turns soft"
-		},
-		{
-			"method": "roast",
-			"ingredients": ["beef"],
-			"tools": [], 
-			"text": "roast beef in pan"
-		}]
-}
+def transform_to_healthy(vals):
 	myrec = copy.deepcopy(vals)
 	for each in myrec["ingredients"]:
 		if each["name"] in unhealthy_protein:
@@ -215,44 +183,11 @@ def transform_to_healthy():
 	print(vals["methods"])
 	print(myrec["methods"])
 
-	return 
+	return myrec
 
-def replace_methods():
+def replace_methods(vals, oldm, newm):
 # takes in vals, oldm, newm
-	vals = {
-	"tools": ["", ""],
-	"methods": ["fry", "roast"],
-	"ingredients": [
-	    {
-			"preparation": "",
-			"descriptor": "",
-			"measurement": "pound",
-			"name": "beef",
-			"quantity": "1"
-	    },
-	    {
-			"preparation": "",
-			"descriptor": "",
-			"measurement": "pack",
-			"name": "spaghetti",
-			"quantity": "1"
-	    }],
-	"steps": [ 
-		{
-			"method": "fry",
-			"ingredients": ["spaghetti"],
-			"tools": ["",""], 
-			"text": "fry spaghetti until it turns soft"
-		},
-		{
-			"method": "roast",
-			"ingredients": ["beef"],
-			"tools": [], 
-			"text": "roast beef in pan"
-		}]
-}
-	oldm = "roast"
-	newm = "barbeque"
+
 	myrec = copy.deepcopy(vals)
 	for each in myrec["steps"]:
 		if each["method"] == oldm:
@@ -266,7 +201,7 @@ def replace_methods():
 	print(myrec["methods"])
 	print(vals["steps"][1]["text"])
 	print(myrec["steps"][1]["text"])
-	return
+	return myrec
 
 # ------------------------------------------------------------------------------------------------------------------------
 
