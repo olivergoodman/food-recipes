@@ -1,3 +1,5 @@
+from veggies import meat2veg
+
 healthy_fats = ['olive oil', 'sunflower oil', 'soybean oil', 'corn oil',  'sesame oil',  'peanut oil']
 unhealthy_fats = ['butter', 'lard', 'shortening', 'canola oil', 'margarine',  'coconut oil',  'tallow',  'cream',   'milk fat',  'palm oil',  'palm kemel oil',  'chicken fat',  'hydrogenated oils']
 healthy_protein = [ 'peas',  'beans', 'eggs', 'crab', 'fish','chicken', 'tofu', 'liver', 'turkey']
@@ -12,3 +14,65 @@ healthy_sugars = ['real fruit jam', 'fruit juice concentrates', 'monk fruit extr
 unhealthy_sugars = ['aspartame', 'acesulfame K', 'sucralose', 'white sugar', 'corn syrup', 'chocolate syrup']
 healthy_methods = ["boil"]
 unhealthy_methods = ["fry"]
+
+
+to_healthy_fats = {
+	'butter': 'olive oil', 
+	'lard': 'olive oil', 
+	'shortening': 'olive oil', 
+	'canola oil': 'olive oil', 
+	'margarine': 'olive oil',  
+	'coconut oil': 'avocado oil',  
+	'tallow': 'soybean oil',   
+	'palm oil': 'sunflower oil',  
+	'palm kemel oil': 'sunflower oil',  
+	'chicken fat': 'olive oil',  
+	'hydrogenated oils': 'non-hydrogenated oils'
+}
+
+to_healthy_protein = meat2veg
+
+to_healthy_dairy = {
+	'reduced-fat milk': 'fat free milk', 
+	'cream cheese': 'low fat cream cheese', 
+	'whole milk' : 'fat free milk', 
+	'butter': 'olive oil', 
+	'cheese': 'low fat cheese', 
+	'whipped cream': 'fat free yogurt',  
+	'sour cream': 'fat free yogurt'
+}
+
+to_healthy_salts = {
+	'soy sauce': 'low sodium soy sauce', 
+	'table salt': 'sea salt',
+	'salt': 'sea salt'
+
+}
+
+to_healthy_grains = {
+	'macaroni': 'whole wheat macaroni', 
+	'noodles': 'buckwheat spaghetti', 
+	'spaghetti': 'whole wheat spaghetti', 
+	'white rice': 'brown rice', 
+	'bread': 'whole wheat bread', 
+	'pasta': 'whole wheat pasta'
+}
+
+to_healthy_sugars = {
+	'sugar': 'cane sugar',
+	'brown sugar': 'maple syrup',
+	'white sugar': 'cane sugar', 
+	'corn syrup': 'maple syrup', 
+	'chocolate syrup': 'honey',
+	'chocolate': 'organic dark chocolate',
+	'caramel': 'maple syrup'
+}
+
+to_healthy_methods = {
+	'fry' : 'stir fry',
+	'deep fry': 'stir fry',
+	'grill' : 'steam',
+	'barbeque' : 'bake',
+	'roast' : 'bake' 
+}
+

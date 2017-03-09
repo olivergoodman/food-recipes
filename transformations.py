@@ -8,6 +8,7 @@ import copy
 import json
 from veggies import veg2meat, meat2veg
 from transforms import healthy_fats, unhealthy_fats, unhealthy_protein, healthy_protein, unhealthy_dairy, healthy_dairy, unhealthy_salts, healthy_salts, unhealthy_grains, healthy_grains, unhealthy_sugars, healthy_sugars, unhealthy_methods, healthy_methods
+from transforms import to_healthy_fats, to_healthy_protein, to_healthy_dairy, to_healthy_salts, to_healthy_sugars, to_healthy_grains, to_healthy_methods 
 
 #	return format for test: 
 parsed_vals = {
