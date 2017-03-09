@@ -5,6 +5,7 @@
 import re
 import random
 import copy
+import json
 from veggies import veg2meat, meat2veg
 # NOTE: tranformations should change both the list of ingredients and the ingredients inside steps
 #	return format: 
@@ -30,12 +31,12 @@ parsed_vals = {
 			"preparation": "",
 			"descriptor": "",
 			"measurement": "lb",
-			"name": "chicken",
+			"name": "tofu",
 			"quantity": "1"
 	    }],
 	"steps": [ 
 		{
-			"method": "",
+			"method": "chop",
 			"ingredients": ['garlic', 'chicken'],
 			"tools": ["knife","spoon"], 
 			"text": ""
@@ -92,17 +93,36 @@ def transform_to_vegetarian(recipe):
 
 	# update list of ingredients in steps
 	for i, step in enumerate(new_recipe['steps']):
-		print step, i
-
-
-
-	# for meat in meats:
-	# 	if meat in direction:
-	# 		direction = direction.replace(replace_this['name'], tofu['name'])
+		ingredients = step['ingredients']
+		for j, ingredient_name in enumerate(ingredients):
+			if ingredient_name in meat2veg:
+				ingredients[j] = meat2veg[ingredient_name]
 
 	return new_recipe
 
 
+def transform_from_vegetarian(recipe):
+	"""
+	given a vegetarian recipe (in JSON format above),
+	returns recipe JSON with both list of ingredients and ingredients in steps changed
+	"""
+
+	new_recipe = copy.deepcopy(recipe)
+
+	# update list of ingredients
+	for i, ingredient in enumerate(new_recipe['ingredients']):
+		name = ingredient['name']
+		if name in veg2meat:
+			new_recipe['ingredients'][i]['name'] = veg2meat[name]
+
+	# update list of ingredients in steps
+	for i, step in enumerate(new_recipe['steps']):
+		ingredients = step['ingredients']
+		for j, ingredient_name in enumerate(ingredients):
+			if ingredient_name in veg2meat:
+				ingredients[j] = veg2meat[ingredient_name]
+
+	return new_recipe
 
 # ------------------------------------------------------------------------------------------------------------------------
 # to/from health transformation
@@ -223,8 +243,11 @@ def transform_to_healthy(vals):
 
 	return myrec
 
-def replace_methods(vals, oldm, newm):
+def replace_methods(vals):
 # takes in vals, oldm, newm
+
+	oldm = raw_input('What cooking method do you want to replace? ')
+	newm = raw_input('What is the new cooking method? ')
 
 	myrec = copy.deepcopy(vals)
 	for each in myrec["steps"]:
@@ -244,9 +267,13 @@ def replace_methods(vals, oldm, newm):
 # ------------------------------------------------------------------------------------------------------------------------
 
 #test
-print '\n**** Meat 2 Vegetarian transformation ****\n'
-print transform_to_vegetarian(parsed_vals)
+print '**** Meat 2 Vegetarian transformation ****\n'
+print json.dumps(transform_to_vegetarian(parsed_vals), 2)
+
+print '\n**** Veggie 2 Meat transformation ****\n'
+print json.dumps(transform_from_vegetarian(parsed_vals), 2)
+
 
 print '\n********\n'
 
-replace_methods()
+replace_methods(parsed_vals)
