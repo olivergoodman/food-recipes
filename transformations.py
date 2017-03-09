@@ -6,11 +6,12 @@ import re
 import random
 import copy
 from veggies import veg2meat, meat2veg
+from transforms import healthy_fats, unhealthy_fats, unhealthy_protein, healthy_protein, unhealthy_dairy, healthy_dairy, unhealthy_salts, healthy_salts, unhealthy_grains, healthy_grains, unhealthy_sugars, healthy_sugars, unhealthy_methods, healthy_methods
 # NOTE: tranformations should change both the list of ingredients and the ingredients inside steps
 #	return format: 
 parsed_vals = {
 	"tools": ["", ""],
-	"methods": ["", ""],
+	"methods": ["grill", "cut"],
 	"ingredients": [
 	    {
 			"preparation": "",
@@ -35,10 +36,10 @@ parsed_vals = {
 	    }],
 	"steps": [ 
 		{
-			"method": "",
+			"method": "grill",
 			"ingredients": ['garlic', 'chicken'],
 			"tools": ["knife","spoon"], 
-			"text": ""
+			"text": "grill chicken and then put some garlic on top"
 		},
 		{
 			"method": "",
@@ -107,20 +108,7 @@ def transform_to_vegetarian(recipe):
 # ------------------------------------------------------------------------------------------------------------------------
 # to/from health transformation
 
-healthy_fats = ['olive oil', 'sunflower oil', 'soybean oil', 'corn oil',  'sesame oil',  'peanut oil']
-unhealthy_fats = ['butter', 'lard', 'shortening', 'canola oil', 'margarine',  'coconut oil',  'tallow',  'cream',   'milk fat',  'palm oil',  'palm kemel oil',  'chicken fat',  'hydrogenated oils']
-healthy_protein = [ 'peas',  'beans', 'eggs', 'crab', 'fish','chicken', 'tofu', 'liver', 'turkey']
-unhealthy_protein = ['ground beef', 'beef', 'pork', 'lamb']
-healthy_dairy = [ 'fat free milk', 'low fat milk', 'yogurt',  'low fat cheese']
-unhealthy_dairy = [ 'reduced-fat milk', 'cream cheese', 'whole milk', 'butter', 'cheese', 'whipped cream',  'sour cream']
-healthy_salts = ['low sodium soy sauce', 'sea salt', 'kosher salt']
-unhealthy_salts = ['soy sauce', 'table salt','salt']
-healthy_grains = ['oat cereal', 'wild rice', 'oatmeal', 'whole rye', 'buckwheat', 'rolled oats', 'quinoa','bulgur', 'millet', 'brown rice', 'whole wheat pasta']
-unhealthy_grains = ['macaroni', 'noodles', 'spaghetti', 'white rice', 'white bread', 'regular white pasta']
-healthy_sugars = ['real fruit jam', 'fruit juice concentrates', 'monk fruit extract', 'cane sugar', 'molasses', 'brown rice syrup' 'stevia', 'honey', 'maple syrup', 'agave syrup', 'coconut sugar', 'date sugar', 'sugar alcohols', 'brown sugar']
-unhealthy_sugars = ['aspartame', 'acesulfame K', 'sucralose', 'white sugar', 'corn syrup', 'chocolate syrup']
-healthy_methods = ["boil"]
-unhealthy_methods = ["fry"]
+
 
 # print return_val["steps"][1]["text"]
 def transform_to_healthy(vals):
@@ -210,22 +198,13 @@ def transform_to_healthy(vals):
 					myrec["methods"].append(each["method"])
 
 	
-	print(vals["steps"][0]["text"])
-	print(myrec["steps"][0]["text"])
-	print(vals["steps"][0]["ingredients"])
-	print(myrec["steps"][0]["ingredients"])
-	print(vals["steps"][1]["text"])
-	print(myrec["steps"][1]["text"])
-	print(vals["steps"][1]["ingredients"])
-	print(myrec["steps"][1]["ingredients"])
-	print(vals["methods"])
-	print(myrec["methods"])
 
 	return myrec
 
-def replace_methods(vals, oldm, newm):
+def replace_methods(vals):
 # takes in vals, oldm, newm
-
+	oldm = raw_input('what method do you want to change?    ')
+	newm = raw_input ('what do you want to change it into?    ')
 	myrec = copy.deepcopy(vals)
 	for each in myrec["steps"]:
 		if each["method"] == oldm:
@@ -235,10 +214,7 @@ def replace_methods(vals, oldm, newm):
 		if each == oldm:
 			myrec["methods"].remove(oldm)
 			myrec["methods"].append(newm)
-	print(vals["methods"])
-	print(myrec["methods"])
-	print(vals["steps"][1]["text"])
-	print(myrec["steps"][1]["text"])
+
 	return myrec
 
 # ------------------------------------------------------------------------------------------------------------------------
@@ -246,7 +222,6 @@ def replace_methods(vals, oldm, newm):
 #test
 print '\n**** Meat 2 Vegetarian transformation ****\n'
 print transform_to_vegetarian(parsed_vals)
-
+print replace_methods(parsed_vals)
 print '\n********\n'
 
-replace_methods()
