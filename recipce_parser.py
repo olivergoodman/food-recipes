@@ -51,7 +51,7 @@ cooking_tools_two = ['baking sheet', 'barbecue grill', 'basting brush', 'bread b
 descriptors = ['Fresh', 'Natural', 'Pure', 'Traditional', 'Original', 'Authentic', 'Real', 'Genuine',
 'Home(.*)made', 'Farmhouse', 'Hand(.*)made', 'Premium', 'Finest', 'Quality', 'Best', 'crushed', 'all-purpose',
                'Montreal', 'cube','packet','dry', 'dried', 'freshly', 'ground', 'packed','chopped', 'Italian',
-               'jar','whole milk', 'whole']
+               'jar','whole milk', 'skim milk', 'whole'] # may need to remove 'whole milk' in case there is an ingredient 'whole milk'
 
 preparation = ['bake', 'barbecue', 'baste', 'beat', 'bind', 'blanch', 'blend', 'boil', 
 'bone', 'braise', 'bread', 'broil', 'brown', 'brush', 'candy', 'caramelize', 'chill', 
@@ -205,8 +205,8 @@ def ingredients_to_lists(ing_list):
     for ing in ing_list:
         vals= parse_ingredient(ing) # (n,m,q,d)
         names.append(vals[0])
-        measurements.append(vals[1])
-        quantities.append(vals[2])
+        quantities.append(vals[1])
+        measurements.append(vals[2])
         descriptors.append(vals[3])
 
     return names,quantities,measurements, descriptors
