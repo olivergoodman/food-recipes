@@ -36,6 +36,7 @@ to_healthy_dairy = {
 	'reduced-fat milk': 'fat free milk', 
 	'cream cheese': 'low fat cream cheese', 
 	'whole milk' : 'fat free milk', 
+	'milk': 'fat free milk',
 	'butter': 'olive oil', 
 	'cheese': 'low fat cheese', 
 	'whipped cream': 'fat free yogurt',  

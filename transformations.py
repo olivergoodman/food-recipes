@@ -307,6 +307,7 @@ def transform_to_vegetarian(recipe):
 			for key in meat2veg:
 				if key in ingredient_name:
 					new_recipe['steps'][i]['ingredients'][j] = ingredient_name.replace(key, meat2veg[key])
+					new_recipe['steps'][i]['text'] = new_recipe['steps'][i]['text'].replace(key, meat2veg[key])
 
 	return new_recipe
 
@@ -336,6 +337,7 @@ def transform_from_vegetarian(recipe):
 			for key in veg2meat:
 				if key in ingredient_name:
 					new_recipe['steps'][i]['ingredients'][j] = ingredient_name.replace(key, veg2meat[key])
+					new_recipe['steps'][i]['text'] = new_recipe['steps'][i]['text'].replace(key, veg2meat[key])
 
 	return new_recipe
 
@@ -365,6 +367,7 @@ def transform_to_healthy(recipe):
 				for key in d:
 					if key in ingredient_name:
 						new_recipe['steps'][i]['ingredients'][j] = ingredient_name.replace(key, d[key])
+						new_recipe['steps'][i]['text'] = new_recipe['steps'][i]['text'].replace(key, d[key])
 
 	# replace methods
 	d = to_healthy_methods
@@ -388,7 +391,8 @@ def transform_to_healthy(recipe):
 				for key in d:
 					if key in method_name:
 						new_recipe['steps'][i]['primary_methods'][j] = method_name.replace(key, d[key])
-						
+						new_recipe['steps'][i]['text'] = new_recipe['steps'][i]['text'].replace(key, d[key])
+
 			secondary_methods = step['secondary_methods']
 			for j, method_name in enumerate(secondary_methods):
 				method_name = method_name.lower()
@@ -396,6 +400,7 @@ def transform_to_healthy(recipe):
 				for key in d:
 					if key in method_name:
 						new_recipe['steps'][i]['secondary_methods'][j] = method_name.replace(key, d[key])
+						new_recipe['steps'][i]['text'] = new_recipe['steps'][i]['text'].replace(key, d[key])
 
 	return new_recipe
 

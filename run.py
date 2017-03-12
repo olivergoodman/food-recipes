@@ -4,14 +4,14 @@ from coding_util import print_recipe_readable
 import json
 
 # recipe_url = 'http://allrecipes.com/recipe/235710/chef-johns-ricotta-meatballs/?clickId=right%20rail%200&internalSource=rr_feed_recipe&referringId=235710&referringContentType=recipe'
-
+sausage_casserole= 'http://allrecipes.com/recipe/241105/sausage-hash-brown-breakfast-casserole/?clickId=right%20rail%202&internalSource=rr_feed_recipe&referringId=241105&referringContentType=recipe'
 
 
 if __name__ == "__main__":
 	recipe_url = raw_input('Paste the url of the recipe here:\t')
 	recipe = main(recipe_url)
 	try:
-		transformation_num = int(raw_input('\nSelect a transformation:\n\t(0)Original Recipe\n\t(1)To Vegetarian\n\t(2)From Vegetarian\n\t(3)To Healthy\n\t(4)Replace Methods\nPlease input a number:\t'))
+		transformation_num = int(raw_input('\nSelect a transformation:\n\t(0) Original Recipe\n\t(1) To Vegetarian\n\t(2) From Vegetarian\n\t(3) To Healthy\n\t(4) Replace Methods\nPlease input a number:\t'))
 		print '\n\n------ Recipe ------\n'
 	except:
 		print "Need to input a number that corresponds to a transformation"
