@@ -46,7 +46,8 @@ def print_list(l):
 def print_recipe_readable(recipe):
     ingredient_list = recipe['ingredients']
     tool_list = recipe['tools']
-    method_list = recipe['primary_methods']
+    primary_method_list = recipe['primary_methods']
+    secondary_method_list = recipe['secondary_methods']
     step_list = recipe['steps']
 
     print "The ingredients you need:"
@@ -65,8 +66,11 @@ def print_recipe_readable(recipe):
         print '\t%s'%tool
     print
 
-    print "Methods:"
-    for me in method_list:
+    print "Primary Methods:"
+    for me in primary_method_list:
+        print '\t%s'%me.lower()
+    print "Secondary Methods:"
+    for me in secondary_method_list:
         print '\t%s'%me.lower()
     print
 
