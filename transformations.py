@@ -16,111 +16,121 @@ parsed_vals = {
   "steps": [
     {
       "text": "Saute onion in 2 tablespoons olive oil in a skillet over medium heat until onion is translucent, about 5 minutes",
+      "secondary_methods": [],
       "tools": [
         "skillet",
         "spoon",
         "tablespoon"
       ],
-      "method": [
+      "primary_methods": [
         "SAUTE"
       ],
       "ingredients": [
         "onion",
-        "olive oil",
         "olive oil"
       ]
     },
     {
       "text": "Stir garlic into onion and turn off heat",
+      "secondary_methods": [],
       "tools": [],
-      "method": [
+      "primary_methods": [
         "STIR"
       ],
       "ingredients": [
+        "cloves garlic",
         "onion"
       ]
     },
     {
       "text": "Transfer onion mixture to a large mixing bowl",
+      "secondary_methods": [
+        "MIX"
+      ],
       "tools": [
         "bowl",
         "mixing bowl"
       ],
-      "method": [
-        "MIX"
-      ],
+      "primary_methods": [],
       "ingredients": [
         "onion"
       ]
     },
     {
       "text": "Stir ground beef, ricotta cheese, parsley, egg, kosher salt, black pepper, and cayenne pepper with onion mixture until almost combined; stir in bread crumbs and continue to mix until thoroughly blended",
-      "tools": [],
-      "method": [
+      "secondary_methods": [
         "BLEND",
-        "MIX",
+        "MIX"
+      ],
+      "tools": [],
+      "primary_methods": [
         "STIR"
       ],
       "ingredients": [
-        "onion",
-        "beef",
-        "ricotta cheese",
+        "tofu",
+        "milk ricotta cheese",
         "parsley",
         "egg",
         "kosher salt",
         "black pepper",
         "cayenne pepper",
+        "onion",
         "bread crumbs"
       ]
     },
     {
       "text": "Roll about 2 tablespoons of mixture into a 1-inch ball for each meatball",
+      "secondary_methods": [
+        "MIX"
+      ],
       "tools": [
         "spoon",
         "tablespoon"
       ],
-      "method": [
-        "MIX"
-      ],
+      "primary_methods": [],
       "ingredients": []
     },
     {
       "text": "Pour 2 tablespoons olive oil in same skillet used to cook onions",
+      "secondary_methods": [],
       "tools": [
         "skillet",
         "spoon",
         "tablespoon"
       ],
-      "method": [],
+      "primary_methods": [],
       "ingredients": [
-        "onion",
-        "olive oil",
         "olive oil"
       ]
     },
     {
       "text": "Place skillet over medium heat and brown meatballs on all sides in hot oil, about 5 minutes",
+      "secondary_methods": [],
       "tools": [
         "skillet"
       ],
-      "method": [],
-      "ingredients": []
+      "primary_methods": [],
+      "ingredients": [
+        "olive oil"
+      ]
     },
     {
       "text": "Hold a crumpled paper towel in a tongs and use it to remove excess grease from skillet",
+      "secondary_methods": [],
       "tools": [
         "skillet",
         "tongs"
       ],
-      "method": [],
+      "primary_methods": [],
       "ingredients": []
     },
     {
       "text": "Pour marinara sauce and water over meatballs in skillet",
+      "secondary_methods": [],
       "tools": [
         "skillet"
       ],
-      "method": [],
+      "primary_methods": [],
       "ingredients": [
         "marinara sauce",
         "water"
@@ -128,8 +138,9 @@ parsed_vals = {
     },
     {
       "text": "Stir to combine and bring to a simmer",
+      "secondary_methods": [],
       "tools": [],
-      "method": [
+      "primary_methods": [
         "SIMMER",
         "STIR"
       ],
@@ -137,14 +148,26 @@ parsed_vals = {
     },
     {
       "text": "Reduce heat to medium-low and simmer, stirring occasionally, until meatballs are cooked through and no longer pink in the center, about 30 minutes",
+      "secondary_methods": [
+        "REDUCE"
+      ],
       "tools": [],
-      "method": [
-        "REDUCE",
+      "primary_methods": [
         "SIMMER",
         "STIR"
       ],
       "ingredients": []
     }
+  ],
+  "secondary_methods": [
+    "MIX",
+    "BLEND",
+    "REDUCE"
+  ],
+  "primary_methods": [
+    "SAUTE",
+    "STIR",
+    "SIMMER"
   ],
   "tools": [
     "skillet",
@@ -154,112 +177,104 @@ parsed_vals = {
     "mixing bowl",
     "tongs"
   ],
-  "methods": [
-    "SAUTE",
-    "STIR",
-    "MIX",
-    "BLEND",
-    "SIMMER",
-    "REDUCE"
-  ],
   "ingredients": [
     {
-      "preparation": "",
-      "descriptor": "minced",
-      "measurement": "",
+      "preparation": "minced",
+      "descriptor": "",
+      "quantity": "1/2",
       "name": "onion",
-      "quantity": "1/2"
+      "measurement": ""
     },
     {
       "preparation": "",
       "descriptor": "",
-      "measurement": "tablespoons",
+      "quantity": "2",
       "name": "olive oil",
-      "quantity": "2"
+      "measurement": "tablespoons"
     },
     {
-      "preparation": "",
-      "descriptor": "minced",
-      "measurement": "",
+      "preparation": "minced",
+      "descriptor": "",
+      "quantity": "3",
       "name": "cloves garlic",
-      "quantity": "3"
+      "measurement": ""
+    },
+    {
+      "preparation": "ground",
+      "descriptor": "",
+      "quantity": "1",
+      "name": "tofu",
+      "measurement": "pound"
     },
     {
       "preparation": "",
-      "descriptor": "ground",
-      "measurement": "pound",
-      "name": "beef",
-      "quantity": "1"
+      "descriptor": "whole",
+      "quantity": "1",
+      "name": "milk ricotta cheese",
+      "measurement": "cup"
     },
     {
-      "preparation": "",
-      "descriptor": "whole milk",
-      "measurement": "cup",
-      "name": "ricotta cheese",
-      "quantity": "1"
-    },
-    {
-      "preparation": "",
-      "descriptor": "packed chopped Italian",
-      "measurement": "cup",
+      "preparation": "chopped",
+      "descriptor": "Italian packed",
+      "quantity": "1/4",
       "name": "parsley",
-      "quantity": "1/4"
+      "measurement": "cup"
     },
     {
-      "preparation": "",
-      "descriptor": "beaten",
-      "measurement": "",
+      "preparation": "beaten",
+      "descriptor": "",
+      "quantity": "1",
       "name": "egg",
-      "quantity": "1"
+      "measurement": ""
     },
     {
       "preparation": "",
       "descriptor": "",
-      "measurement": "teaspoons",
+      "quantity": "1 1/2",
       "name": "kosher salt",
-      "quantity": "1 1/2"
+      "measurement": "teaspoons"
     },
     {
-      "preparation": "",
-      "descriptor": "freshly ground",
-      "measurement": "teaspoon",
+      "preparation": "freshly ground",
+      "descriptor": "",
+      "quantity": "1/2",
       "name": "black pepper",
-      "quantity": "1/2"
+      "measurement": "teaspoon"
     },
     {
-      "preparation": "",
-      "descriptor": "or to taste",
-      "measurement": "pinch",
+      "preparation": "or to taste",
+      "descriptor": "",
+      "quantity": "1",
       "name": "cayenne pepper",
-      "quantity": "1"
+      "measurement": "pinch"
     },
     {
-      "preparation": "",
-      "descriptor": "dry",
-      "measurement": "cup",
+      "preparation": "dry",
+      "descriptor": "",
+      "quantity": "1/3",
       "name": "bread crumbs",
-      "quantity": "1/3"
+      "measurement": "cup"
     },
     {
       "preparation": "",
       "descriptor": "",
-      "measurement": "tablespoons",
+      "quantity": "2",
       "name": "olive oil",
-      "quantity": "2"
+      "measurement": "tablespoons"
     },
     {
       "preparation": "",
       "descriptor": "jar",
-      "measurement": "28 ounce",
+      "quantity": "1",
       "name": "marinara sauce",
-      "quantity": "1"
+      "measurement": "28 ounce"
     },
     {
       "preparation": "",
       "descriptor": "",
-      "measurement": "cup",
+      "quantity": "1",
       "name": "water",
-      "quantity": "1"
+      "measurement": "cup"
     }
   ]
 }
@@ -355,20 +370,32 @@ def transform_to_healthy(recipe):
 	d = to_healthy_methods
 	for key in to_healthy_methods:
 		# update list of methods
-		for i, method in enumerate(new_recipe['methods']):
+		for i, method in enumerate(new_recipe['primary_methods']):
 			method = method.lower()
 			if key in method:
-				new_recipe['methods'][i] = method.replace(key, d[key])
+				new_recipe['primary_methods'][i] = method.replace(key, d[key])
+		for i, method in enumerate(new_recipe['secondary_methods']):
+			method = method.lower()
+			if key in method:
+				new_recipe['secondary_methods'][i] = method.replace(key, d[key])
 
 		# update method in list of steps
 		for i, step in enumerate(new_recipe['steps']):
-			methods = step['method']
-			for j, method_name in enumerate(methods):
+			primary_methods = step['primary_methods']
+			for j, method_name in enumerate(primary_methods):
 				method_name = method_name.lower()
 				#iterate thru keys in the dictionary. if key a substring in method name, replace method name w value
 				for key in d:
 					if key in method_name:
-						new_recipe['steps'][i]['method'][j] = method_name.replace(key, d[key])
+						new_recipe['steps'][i]['primary_methods'][j] = method_name.replace(key, d[key])
+						
+			secondary_methods = step['secondary_methods']
+			for j, method_name in enumerate(secondary_methods):
+				method_name = method_name.lower()
+				#iterate thru keys in the dictionary. if key a substring in method name, replace method name w value
+				for key in d:
+					if key in method_name:
+						new_recipe['steps'][i]['secondary_methods'][j] = method_name.replace(key, d[key])
 
 	return new_recipe
 
@@ -382,15 +409,23 @@ def replace_methods(vals):
 	myrec = copy.deepcopy(vals)
 	# replace method in steps
 	for step in myrec["steps"]:
-		for i, method in enumerate(step['method']):
+		for i, method in enumerate(step['primary_methods']):
 			method = method.lower()
 			if method == oldm:
-				step['method'][i] = newm
+				step['primary_methods'][i] = newm
+				step["text"] =  step["text"].replace(oldm, newm)
+		for i, method in enumerate(step['secondary_methods']):
+			method = method.lower()
+			if method == oldm:
+				step['secondary_methods'][i] = newm
 				step["text"] =  step["text"].replace(oldm, newm)
 	# replace method in list of methods
-	for i, method in enumerate(myrec["methods"]):
+	for i, method in enumerate(myrec["primary_methods"]):
 		if method.lower() == oldm.lower():
-			myrec['methods'][i] = newm
+			myrec['primary_methods'][i] = newm
+	for i, method in enumerate(myrec["secondary_methods"]):
+		if method.lower() == oldm.lower():
+			myrec['secondary_methods'][i] = newm
 
 	return myrec
 
