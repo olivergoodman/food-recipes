@@ -15,7 +15,7 @@ rec2 = 'http://allrecipes.com/recipe/241105/sausage-hash-brown-breakfast-cassero
 # probably a better way to do this and be able to exclude plurals
 measurements = ['cup', 'cups', 'teaspoon', 'teaspoons', 'tablespoon','tablespoons','quart','quarts','gallon', 'gallons',
                 'litre','litres', 'pint', 'pints', 'pinch', 'pinches', 'pound', 'pounds', 'ounce', 'ounces' 'fluid ounce', 'fluid ounces']
-time_units = ['seconds*', 'minutes*','hours*']
+time_units = ['seconds?', 'minutes?','hours?']
 # cooking_method_terms
 cooking_methods = ['AL DENTE', 'BAKE', 'BARBECUE', 'BASTE', 'BATTER', 'BEAT', 'BLANCH', 
 'BLEND', 'BOIL', 'BROIL', 'CARAMELIZE', 'CHOP', 'CLARIFY', 'CREAM', 'CURE', 'DEGLAZE',
