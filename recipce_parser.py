@@ -302,7 +302,7 @@ def main(url):
 
 
     # print ingredients
-    return json.dumps(steps_dict, indent=2)
-    # return json.dumps(ingredients_dict, indent=2) #json.dumps returns pretty format dict
+    return steps_dict
+    
 
-print main(recipe_url)
+# print json.dumps(main(recipe_url), indent=2)

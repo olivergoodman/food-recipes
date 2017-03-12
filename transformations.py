@@ -397,11 +397,11 @@ def replace_methods(vals):
 # ------------------------------------------------------------------------------------------------------------------------
 
 #test
-print '\n******************** Meat 2 Vegetarian transformation ************************\n'
-print json.dumps(transform_to_vegetarian(parsed_vals), sort_keys=True, indent=2)
-print '\n******************** Vegetarian 2 Meat transformation ************************\n'
-print json.dumps(transform_from_vegetarian(parsed_vals), sort_keys=True, indent=2)
-print '\n************************ Healthy transformation ****************************\n'
-print json.dumps(transform_to_healthy(parsed_vals), sort_keys=True, indent=2)
-print '\n************************ Replace cooking method transformations ****************\n'
-print json.dumps(replace_methods(parsed_vals), sort_keys=True, indent=2)
+# print '\n******************** Meat 2 Vegetarian transformation ************************\n'
+# print json.dumps(transform_to_vegetarian(parsed_vals), sort_keys=True, indent=2)
+# print '\n******************** Vegetarian 2 Meat transformation ************************\n'
+# print json.dumps(transform_from_vegetarian(parsed_vals), sort_keys=True, indent=2)
+# print '\n************************ Healthy transformation ****************************\n'
+# print json.dumps(transform_to_healthy(parsed_vals), sort_keys=True, indent=2)
+# print '\n************************ Replace cooking method transformations ****************\n'
+# print json.dumps(replace_methods(parsed_vals), sort_keys=True, indent=2)
