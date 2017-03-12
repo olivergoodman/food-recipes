@@ -81,6 +81,7 @@ def print_recipe_readable(recipe):
         print "\tmethods:",
         print_list(step['primary_methods'] + step['secondary_methods'])
         print "\tdirection: %s\n"%step['text']
+        print "\ttime: %s\n"%step['time']
         i += 1
 
 primary_cooking_methods = ['BAKE', 'BOIL', 'BROIL', 'FRY', 'GRILL', 'PAN-BROIL', 
