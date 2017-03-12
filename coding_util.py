@@ -80,7 +80,7 @@ def print_recipe_readable(recipe):
         print_list(step['tools'])
         print "\tmethods:",
         print_list(step['primary_methods'] + step['secondary_methods'])
-        print "\tdirection: %s\n"%step['text']
+        print "\tdirection: %s"%step['text']
         print "\ttime: %s\n"%step['time']
         i += 1
 
