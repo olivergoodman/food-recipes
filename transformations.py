@@ -13,43 +13,255 @@ from transforms import to_healthy_fats, to_healthy_protein, to_healthy_dairy, to
 #	return format for test: 
 
 parsed_vals = {
-	"tools": ["", ""],
-	"methods": ["grill", "cut"],
-	"ingredients": [
-	    {
-			"preparation": "",
-			"descriptor": "",
-			"measurement": "pinch",
-			"name": "salt",
-			"quantity": "1"
-	    },
-	    {
-			"preparation": "",
-			"descriptor": "",
-			"measurement": "19 ounce",
-			"name": "can garbanzo beans, half the liquid reserved",
-			"quantity": "1"
-	    },
-	    {
-			"preparation": "",
-			"descriptor": "",
-			"measurement": "lb",
-			"name": "roast tofu",
-			"quantity": "1"
-	    }],
-	"steps": [ 
-		{
-			"method": "grill",
-			"ingredients": ['garlic', 'tofu'],
-			"tools": ["knife","spoon"], 
-			"text": "grill tofu and then put some garlic on top"
-		},
-		{
-			"method": "",
-			"ingredients": ['salt', 'potatos'],
-			"tools": [], 
-			"text": "test text"
-		}]
+  "steps": [
+    {
+      "text": "Saute onion in 2 tablespoons olive oil in a skillet over medium heat until onion is translucent, about 5 minutes",
+      "tools": [
+        "skillet",
+        "spoon",
+        "tablespoon"
+      ],
+      "method": [
+        "SAUTE"
+      ],
+      "ingredients": [
+        "onion",
+        "olive oil",
+        "olive oil"
+      ]
+    },
+    {
+      "text": "Stir garlic into onion and turn off heat",
+      "tools": [],
+      "method": [
+        "STIR"
+      ],
+      "ingredients": [
+        "onion"
+      ]
+    },
+    {
+      "text": "Transfer onion mixture to a large mixing bowl",
+      "tools": [
+        "bowl",
+        "mixing bowl"
+      ],
+      "method": [
+        "MIX"
+      ],
+      "ingredients": [
+        "onion"
+      ]
+    },
+    {
+      "text": "Stir ground beef, ricotta cheese, parsley, egg, kosher salt, black pepper, and cayenne pepper with onion mixture until almost combined; stir in bread crumbs and continue to mix until thoroughly blended",
+      "tools": [],
+      "method": [
+        "BLEND",
+        "MIX",
+        "STIR"
+      ],
+      "ingredients": [
+        "onion",
+        "beef",
+        "ricotta cheese",
+        "parsley",
+        "egg",
+        "kosher salt",
+        "black pepper",
+        "cayenne pepper",
+        "bread crumbs"
+      ]
+    },
+    {
+      "text": "Roll about 2 tablespoons of mixture into a 1-inch ball for each meatball",
+      "tools": [
+        "spoon",
+        "tablespoon"
+      ],
+      "method": [
+        "MIX"
+      ],
+      "ingredients": []
+    },
+    {
+      "text": "Pour 2 tablespoons olive oil in same skillet used to cook onions",
+      "tools": [
+        "skillet",
+        "spoon",
+        "tablespoon"
+      ],
+      "method": [],
+      "ingredients": [
+        "onion",
+        "olive oil",
+        "olive oil"
+      ]
+    },
+    {
+      "text": "Place skillet over medium heat and brown meatballs on all sides in hot oil, about 5 minutes",
+      "tools": [
+        "skillet"
+      ],
+      "method": [],
+      "ingredients": []
+    },
+    {
+      "text": "Hold a crumpled paper towel in a tongs and use it to remove excess grease from skillet",
+      "tools": [
+        "skillet",
+        "tongs"
+      ],
+      "method": [],
+      "ingredients": []
+    },
+    {
+      "text": "Pour marinara sauce and water over meatballs in skillet",
+      "tools": [
+        "skillet"
+      ],
+      "method": [],
+      "ingredients": [
+        "marinara sauce",
+        "water"
+      ]
+    },
+    {
+      "text": "Stir to combine and bring to a simmer",
+      "tools": [],
+      "method": [
+        "SIMMER",
+        "STIR"
+      ],
+      "ingredients": []
+    },
+    {
+      "text": "Reduce heat to medium-low and simmer, stirring occasionally, until meatballs are cooked through and no longer pink in the center, about 30 minutes",
+      "tools": [],
+      "method": [
+        "REDUCE",
+        "SIMMER",
+        "STIR"
+      ],
+      "ingredients": []
+    }
+  ],
+  "tools": [
+    "skillet",
+    "spoon",
+    "tablespoon",
+    "bowl",
+    "mixing bowl",
+    "tongs"
+  ],
+  "methods": [
+    "SAUTE",
+    "STIR",
+    "MIX",
+    "BLEND",
+    "SIMMER",
+    "REDUCE"
+  ],
+  "ingredients": [
+    {
+      "preparation": "",
+      "descriptor": "minced",
+      "measurement": "",
+      "name": "onion",
+      "quantity": "1/2"
+    },
+    {
+      "preparation": "",
+      "descriptor": "",
+      "measurement": "tablespoons",
+      "name": "olive oil",
+      "quantity": "2"
+    },
+    {
+      "preparation": "",
+      "descriptor": "minced",
+      "measurement": "",
+      "name": "cloves garlic",
+      "quantity": "3"
+    },
+    {
+      "preparation": "",
+      "descriptor": "ground",
+      "measurement": "pound",
+      "name": "beef",
+      "quantity": "1"
+    },
+    {
+      "preparation": "",
+      "descriptor": "whole milk",
+      "measurement": "cup",
+      "name": "ricotta cheese",
+      "quantity": "1"
+    },
+    {
+      "preparation": "",
+      "descriptor": "packed chopped Italian",
+      "measurement": "cup",
+      "name": "parsley",
+      "quantity": "1/4"
+    },
+    {
+      "preparation": "",
+      "descriptor": "beaten",
+      "measurement": "",
+      "name": "egg",
+      "quantity": "1"
+    },
+    {
+      "preparation": "",
+      "descriptor": "",
+      "measurement": "teaspoons",
+      "name": "kosher salt",
+      "quantity": "1 1/2"
+    },
+    {
+      "preparation": "",
+      "descriptor": "freshly ground",
+      "measurement": "teaspoon",
+      "name": "black pepper",
+      "quantity": "1/2"
+    },
+    {
+      "preparation": "",
+      "descriptor": "or to taste",
+      "measurement": "pinch",
+      "name": "cayenne pepper",
+      "quantity": "1"
+    },
+    {
+      "preparation": "",
+      "descriptor": "dry",
+      "measurement": "cup",
+      "name": "bread crumbs",
+      "quantity": "1/3"
+    },
+    {
+      "preparation": "",
+      "descriptor": "",
+      "measurement": "tablespoons",
+      "name": "olive oil",
+      "quantity": "2"
+    },
+    {
+      "preparation": "",
+      "descriptor": "jar",
+      "measurement": "28 ounce",
+      "name": "marinara sauce",
+      "quantity": "1"
+    },
+    {
+      "preparation": "",
+      "descriptor": "",
+      "measurement": "cup",
+      "name": "water",
+      "quantity": "1"
+    }
+  ]
 }
 
 
