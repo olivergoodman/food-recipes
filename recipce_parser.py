@@ -15,7 +15,7 @@ rec2 = 'http://allrecipes.com/recipe/241105/sausage-hash-brown-breakfast-cassero
 # probably a better way to do this and be able to exclude plurals
 measurements = ['cup', 'cups', 'teaspoon', 'teaspoons', 'tablespoon','tablespoons','quart','quarts','gallon', 'gallons',
                 'litre','litres', 'pint', 'pints', 'pinch', 'pinches', 'pound', 'pounds', 'ounce', 'ounces' 'fluid ounce', 'fluid ounces']
-
+time_units = ['seconds*', 'minutes*','hours*']
 # cooking_method_terms
 cooking_methods = ['AL DENTE', 'BAKE', 'BARBECUE', 'BASTE', 'BATTER', 'BEAT', 'BLANCH', 
 'BLEND', 'BOIL', 'BROIL', 'CARAMELIZE', 'CHOP', 'CLARIFY', 'CREAM', 'CURE', 'DEGLAZE',
@@ -193,7 +193,7 @@ def parse_ingredient(ln):
             item = item.strip(' ')
             item = re.sub(' +',' ',item)
     descriptor = descriptor.strip(' ')
-    return item, quantity, measurement, descriptor, preparation
+    return item, frac_to_dec(quantity), measurement, descriptor, preparation
 
 def ingredients_to_dict(ing_list):
     # need to include cooking methods/ cooking tools pulled directions.... TB done later
@@ -295,6 +295,7 @@ def steps_to_dict(d_list,i_lst):
     for dir in d_list:
         dir_cleaned = dir.translate(None, string.punctuation)
         # ingreds = cu.find_term(dir_cleaned, names)
+        time = find_time(dir_cleaned)
         ingreds = cu.find_term_by_direction(dir_cleaned, names)
         tools = cu.find_term(dir_cleaned, cooking_tools_one) + cu.find_term(dir_cleaned, cooking_tools_two)
         primary_methods = cu.find_term(dir_cleaned, primary_cooking_methods)
@@ -309,12 +310,13 @@ def steps_to_dict(d_list,i_lst):
             if sm not in drxn_dict['secondary_methods']:
                 drxn_dict['secondary_methods'].append(sm)
         # add to steps
-        step = {'primary_methods':[], 'secondary_methods':[],'ingredients':[],'tools':[], 'text':''}
+        step = {'primary_methods':[], 'secondary_methods':[],'ingredients':[],'tools':[], 'text':'', 'time':''}
         step['primary_methods'] = primary_methods
         step['secondary_methods'] = secondary_methods
         step['ingredients'] = ingreds
         step['tools'] = tools
         step['text'] = dir
+        step['time'] = time
         drxn_dict['steps'].append(step)
         # in a single step:
         # get ingredients+ relevant info (name, quant,descriptor*, prep*)
@@ -322,7 +324,32 @@ def steps_to_dict(d_list,i_lst):
         # get cooking method used
 
     return drxn_dict
+def frac_to_dec(string):
+    '''
+    takes in string number in format 'x y/z' or 'x'
+    returns float number to 2 decimal places
+    '''
+    lst = string.split(' ')
+    val = 0
+    for i in lst:
+        if '/' in i:
+            vals = i.split('/')
+            cur_val = float(vals[0]) / float(vals[1])
+        else: # just a number
+            if unicode(i, 'utf-8').isnumeric():
+                cur_val = float(i)
+            else:
+                cur_val = 0
+        val += cur_val
+    return round(val,2)
 
+def find_time(direction):
+    for interval in time_units:
+        m = re.search(r"(\d+) %s" % (interval), direction)
+        if m:
+            return m.group(0)
+
+    return ''
 def main(url):
     page = process_html(url)
     ingredients = scrape_x(page, 'ingredient') # ingredients =  scrape_x(page, 'ingredient')
@@ -331,10 +358,9 @@ def main(url):
     steps_dict = steps_to_dict(directions, ingredients)
 
 
-    # print ingredients
+    # print print_directions(directions)
     return json.dumps(steps_dict, indent=2)
     # return json.dumps(ingredients_dict, indent=2) #json.dumps returns pretty format dict
 
-print main(rec)
-# what
-
+print main(rec2)
+# print find_time('45 minutes')
