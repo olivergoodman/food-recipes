@@ -33,7 +33,7 @@ cooking_tools_one = ['apron', 'baster', 'blender', 'bowl', 'carafe', 'colander',
 'juicer', 'kettle', 'knife', 'ladle', 'lid', 'mandolin', 'mold', 'oven', 'pan', 
 'peeler', 'percolator', 'pitcher', 'platter', 'poacher', 'pot', 'ramekin', 
 'refrigerator', 'ricer', 'roaster', 'scissors', 'shears', 'sieve', 'skewer', 'skillet', 
-'slicer', 'spoon', 'steamer', 'stockpot', 'stove', 'strainer', 'tablespoon', 'teakettle', 
+'slicer', 'spoon', 'steamer', 'stockpot', 'stove', 'strainer', 'tablespoon', 'teakettle',
 'teaspoon', 'thermometer', 'toaster', 'tongs', 'trivet', 'utensils', 'whisk', 'wok', 
 'zester']
 
@@ -336,4 +336,5 @@ def main(url):
     # return json.dumps(ingredients_dict, indent=2) #json.dumps returns pretty format dict
 
 print main(rec)
+# what
 
