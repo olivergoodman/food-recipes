@@ -11,6 +11,19 @@ def find_term(sentence, term_list):
             terms.append(term)
     return terms
 
+def find_term_by_direction(sentence, ingred_list):
+    '''
+    search for each word in a direction for its existence in ingred_list
+    returns ingredient name
+    '''
+    terms = []
+    direc_lst = sentence.translate(None, string.punctuation).split(' ')
+    for d in direc_lst:
+        for i in ingred_list:
+            if d in i and i not in terms:
+                terms.append(i)
+    return terms
+
 # 'abc. 123.' -> ['abc','123']
 def split_sentences(text):
     '''
