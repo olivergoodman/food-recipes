@@ -5,6 +5,8 @@ import json
 import re
 import string
 import coding_util as cu
+from coding_util import primary_cooking_methods
+from coding_util import other_cooking_methods
 
 # test urls
 recipe_url = 'http://allrecipes.com/recipe/235710/chef-johns-ricotta-meatballs/?clickId=right%20rail%200&internalSource=rr_feed_recipe&referringId=235710&referringContentType=recipe'
@@ -36,24 +38,29 @@ cooking_tools_one = ['apron', 'baster', 'blender', 'bowl', 'carafe', 'colander',
 'zester']
 
 # complex cooking tool terms
-cooking_tools_two = ['baking sheet', 'barbecue grill', 'basting brush', 'bread basket', 
+cooking_tools_two = ['baking sheet', 'baking dish', 'barbecue grill', 'basting brush', 'bread basket',
 'butcher block', 'can opener', 'charcoal grill', 'cheese cloth', 'coffee maker', 
 'cookie cutter', 'cookie press', 'cookie sheet', 'cooling rack', 'custard cup', 
 'cutting board', 'egg beater', 'egg timer', 'espresso machine', 'food processor', 
 'garlic press', 'hamburger press', 'hand mixer', 'ice bucket', 'ice cream scoop', 
 'icing spatula', 'jar opener', 'measuring cup', 'mixing bowl', 'mortar and pestle', 
-'nut cracker', 'parchment paper', 'pastry bag', 'pepper mill', 'pizza cutter', 
+'nut cracker', 'parchment paper', 'pastry bag', 'pepper mill', 'pie plate', 'pizza cutter',
 'pizza stone', 'popcorn popper', 'pressure cooker', 'raclette grill', 'rice cooker', 
 'rolling pin', 'salad bowl', 'salad spinner', 'salt shaker', 'sharpening steel', 
 'slow cooker', 'souffle dish', 'spice rack', 'vegetable bin', 'waffle iron', 
 'water filter', 'yogurt maker']
 
-descriptors = ['Fresh', 'Natural', 'Pure', 'Traditional', 'Original', 'Authentic', 'Real', 'Genuine',
-'Home(.*)made', 'Farmhouse', 'Hand(.*)made', 'Premium', 'Finest', 'Quality', 'Best', 'crushed', 'all-purpose',
-               'Montreal', 'cube','packet','dry', 'dried', 'freshly', 'ground', 'packed','chopped', 'Italian',
-               'jar','whole milk', 'skim', 'whole','half','crushed','shredded', 'frozen', 'thawed'] # may need to remove 'whole milk' in case there is an ingredient 'whole milk'
+# need to change case... or ignore case
+descriptors = ['Authentic', 'Best', 'Farmhouse', 'Finest', 'Fresh', 'Genuine', 'Hand(.*)made', 'Home(.*)made',
+               'Italian', 'Montreal', 'Natural', 'Original', 'Premium', 'Pure', 'Quality', 'Real', 'Traditional',
+               'all-purpose', 'half', 'jar', 'large', 'medium', 'package', 'packaged', 'packed', 'packet',  'skim',
+               'small',  'whole', 'whole milk']
+                # may need to remove 'whole milk' in case there is an ingredient 'whole milk'
+preparations = [ 'beaten','browned', 'chopped', 'clarified', 'crushed', 'crushed', 'coarsely','cube', 'cut','diced','dried', 'dry',
+         'freshly', 'frozen', 'grated','ground', 'mashed', 'minced', 'poached', 'pureed', 'seared', 'shredded','stewed',
+                'thawed','finely','scalloped','whisked','whipped']
 
-preparation = ['bake', 'barbecue', 'baste', 'beat', 'bind', 'blanch', 'blend', 'boil', 
+preparation1 = ['bake', 'baked', 'barbecue', 'barbecued', 'baste', 'beat', 'bind', 'blanch', 'blend', 'boil',
 'bone', 'braise', 'bread', 'broil', 'brown', 'brush', 'candy', 'caramelize', 'chill', 
 'chop', 'clarify', 'coat', 'coddle', 'combine', 'cool', 'core', 'cream', 'crush', 
 'cube', 'cut', 'cut in', 'deep-fry', 'devein', 'dice', 'dissolve', 'dot', 'drain', 
@@ -64,7 +71,7 @@ preparation = ['bake', 'barbecue', 'baste', 'beat', 'bind', 'blanch', 'blend', '
 'reconstitute', 'reduce', 'refresh', 'roast', 'roll', 'rotate', 'saute', 'scald', 
 'scallop', 'score', 'sear', 'season', 'section', 'shape', 'shell', 'shield', 'shred', 
 'sift', 'simmer', 'skim', 'slice', 'sliver', 'snip', 'sprinkle', 'steam', 'steep', 
-'sterilize', 'stew', 'stir', 'stir-fry', 'strain', 'thicken', 'toast', 'toss', 'truss', 
+'sterilize', 'stew', 'stir', 'stir-fry', 'strained', 'thicken', 'toasted', 'tossed', 'truss',
 'unmold', 'vent', 'whip','whisk']
 
 # Each sentense is a step.
@@ -135,6 +142,9 @@ def parse_ingredient(ln):
     lst = ln.split(' ')
     quantity = lst[0]
     measurement = []
+    descriptor = ''
+    preparation = ''
+
     i = 1
     if '/' in lst[i]:
         quantity += ' {0}'.format(lst[1])
@@ -155,22 +165,35 @@ def parse_ingredient(ln):
     else:
         measurement = ''
         i = 1
+    # case where descriptor/ preparations are after a comma
     item_desc = ' '.join(lst[i:]).split(',')
     if len(item_desc) > 1:
         item = item_desc[0]
-        descriptor = item_desc[1].lstrip()
+        preparation = item_desc[1].lstrip()
     else:
         item = item_desc[0]
-        descriptor = ''
+    # handle preparation
+    for p in preparations:
+        if p in item and p not in preparation:
+            preparation += ' {0}'.format(p)
+            item = item.replace(p,'')
+            item = item.strip(' ')
+            # item = re.sub(' +',' ',item)
+    preparation = preparation.strip(' ')
 
-    # handle descriptors
+    # handle descriptors, search in/remove from preparation
     for d in descriptors:
+        if d in preparation and d not in descriptor:
+            descriptor += ' {0}'.format(d)
+            preparation = item.replace(d,'')
+            preparation = re.sub(' +',' ',preparation)
         if d in item and d not in descriptor:
             descriptor += ' {0}'.format(d)
             item = item.replace(d,'')
             item = item.strip(' ')
+            item = re.sub(' +',' ',item)
     descriptor = descriptor.strip(' ')
-    return item, quantity, measurement, descriptor
+    return item, quantity, measurement, descriptor, preparation
 
 def ingredients_to_dict(ing_list):
     # need to include cooking methods/ cooking tools pulled directions.... TB done later
@@ -194,6 +217,7 @@ def ingredients_to_dict(ing_list):
         i_dict["quantity"] = vals[1]
         i_dict["measurement"] = vals[2]
         i_dict["descriptor"] = vals[3]
+        i_dict["preparation"] = vals[4]
         recipe_dict["ingredients"].append(i_dict)
     return recipe_dict
 
@@ -202,14 +226,15 @@ def ingredients_to_lists(ing_list):
     quantities = []
     measurements =[]
     descriptors = []
+    preparations = []
     for ing in ing_list:
-        vals= parse_ingredient(ing) # (n,m,q,d)
+        vals = parse_ingredient(ing) # (n,m,q,d)
         names.append(vals[0])
         quantities.append(vals[1])
         measurements.append(vals[2])
         descriptors.append(vals[3])
-
-    return names,quantities,measurements, descriptors
+        preparations.append(vals[4])
+    return names,quantities,measurements, descriptors, preparations
 
 def print_directions(lst):
     directions = lst
@@ -253,8 +278,8 @@ def parse_directions(dir_list):
 def steps_to_dict(d_list,i_lst):
     # issues: searching for compound-word ingredients in directions (not typically referenced by exact name)
     #       can be solved in initial parsing... maybe search for combinations of bigrams?
-    names, quants, measurements, descriptors = ingredients_to_lists(i_lst)
-    drxn_dict = {'tools':[], 'methods':[],'ingredients':[], 'steps':[]}
+    names, quants, measurements, descriptors, preparations = ingredients_to_lists(i_lst)
+    drxn_dict = {'tools':[], 'primary_methods':[], 'secondary_methods':[],'ingredients':[], 'steps':[]}
     # create ingredients list of dicts
     for i in names:
         if i not in drxn_dict['ingredients']:
@@ -264,23 +289,29 @@ def steps_to_dict(d_list,i_lst):
             new_ing['quantity'] = quants[ing_index]
             new_ing['measurement'] = measurements[ing_index]
             new_ing['descriptor'] = descriptors[ing_index]
+            new_ing['preparation'] = preparations[ing_index]
             drxn_dict['ingredients'].append(new_ing)
     # create populate tools, methods, steps
     for dir in d_list:
         dir_cleaned = dir.translate(None, string.punctuation)
-        ingreds = cu.find_term(dir_cleaned, names)
+        # ingreds = cu.find_term(dir_cleaned, names)
+        ingreds = cu.find_term_by_direction(dir_cleaned, names)
         tools = cu.find_term(dir_cleaned, cooking_tools_one) + cu.find_term(dir_cleaned, cooking_tools_two)
-        methods = cu.find_term(dir_cleaned, cooking_methods)
-
+        primary_methods = cu.find_term(dir_cleaned, primary_cooking_methods)
+        secondary_methods = cu.find_term(dir_cleaned, other_cooking_methods)
         for t in tools:
             if t not in drxn_dict['tools']:
                 drxn_dict['tools'].append(t)
-        for m in methods:
-            if m not in drxn_dict['methods']:
-                drxn_dict['methods'].append(m)
+        for pm in primary_methods:
+            if pm not in drxn_dict['primary_methods']:
+                drxn_dict['primary_methods'].append(pm)
+        for sm in secondary_methods:
+            if sm not in drxn_dict['secondary_methods']:
+                drxn_dict['secondary_methods'].append(sm)
         # add to steps
-        step = {'method':[], 'ingredients':[],'tools':[], 'text':''}
-        step['method'] = methods
+        step = {'primary_methods':[], 'secondary_methods':[],'ingredients':[],'tools':[], 'text':''}
+        step['primary_methods'] = primary_methods
+        step['secondary_methods'] = secondary_methods
         step['ingredients'] = ingreds
         step['tools'] = tools
         step['text'] = dir
@@ -296,7 +327,6 @@ def main(url):
     page = process_html(url)
     ingredients = scrape_x(page, 'ingredient') # ingredients =  scrape_x(page, 'ingredient')
     # ingredients_dict = ingredients_to_dict(ingredients)
-    # names,quants,measurements, descriptors = ingredients_to_lists(ingredients)
     directions = parse_directions(scrape_x(page, 'direction'))  # directions =  scrape_x(page, 'direction')
     steps_dict = steps_to_dict(directions, ingredients)
 
@@ -305,4 +335,5 @@ def main(url):
     return json.dumps(steps_dict, indent=2)
     # return json.dumps(ingredients_dict, indent=2) #json.dumps returns pretty format dict
 
-print main(recipe_url)
+print main(rec)
+
