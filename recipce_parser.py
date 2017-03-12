@@ -358,9 +358,9 @@ def main(url):
     steps_dict = steps_to_dict(directions, ingredients)
 
 
-    # print print_directions(directions)
-    return json.dumps(steps_dict, indent=2)
-    # return json.dumps(ingredients_dict, indent=2) #json.dumps returns pretty format dict
+    # print ingredients
+    return steps_dict
 
-print main(rec2)
-# print find_time('45 minutes')
+
+# print json.dumps(main(recipe_url), indent=2)
+# print main(rec)

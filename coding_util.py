@@ -34,6 +34,54 @@ def split_sentences(text):
     sentences = re.split(r' *[\.\?!\n*][\'"\)\]]* *',text)
     return filter(lambda x: len(x)>0,sentences)
 
+def print_help(s):
+    if s != '':
+        print s,
+
+def print_list(l):
+    for x in l:
+        print '%s;'%x,
+    print
+
+def print_recipe_readable(recipe):
+    ingredient_list = recipe['ingredients']
+    tool_list = recipe['tools']
+    method_list = recipe['primary_methods']
+    step_list = recipe['steps']
+
+    print "The ingredients you need:"
+    for ingred in ingredient_list:
+        print "\t",
+        print_help(ingred['quantity'])
+        print_help(ingred['measurement'])
+        print_help(ingred['descriptor'])
+        print_help(ingred['preparation'])
+        print_help(ingred['name'])
+        print
+    print
+
+    print "The tools you need:"
+    for tool in tool_list:
+        print '\t%s'%tool
+    print
+
+    print "Methods:"
+    for me in method_list:
+        print '\t%s'%me.lower()
+    print
+
+    print "Directions:"
+    i = 1
+    for step in step_list:
+        print "Step %d:"%i
+        print "\tingredients:",
+        print_list(step['ingredients'])
+        print "\ttools:",
+        print_list(step['tools'])
+        print "\tmethods:",
+        print_list(step['primary_methods'] + step['secondary_methods'])
+        print "\tdirection: %s\n"%step['text']
+        i += 1
 
 primary_cooking_methods = ['BAKE', 'BOIL', 'BROIL', 'FRY', 'GRILL', 'PAN-BROIL', 
 'PAN-FRY', 'PARBOIL', 'POACH', 'ROAST', 'SAUTE', 'SIMMER', 'STEAM', 'STEW', 'STIR']
