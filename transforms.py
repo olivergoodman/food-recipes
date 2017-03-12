@@ -46,7 +46,6 @@ to_healthy_salts = {
 	'soy sauce': 'low sodium soy sauce', 
 	'table salt': 'sea salt',
 	'salt': 'sea salt'
-
 }
 
 to_healthy_grains = {
@@ -54,6 +53,7 @@ to_healthy_grains = {
 	'noodles': 'buckwheat spaghetti', 
 	'spaghetti': 'whole wheat spaghetti', 
 	'white rice': 'brown rice', 
+	'rice': 'brown rice',
 	'bread': 'whole wheat bread', 
 	'pasta': 'whole wheat pasta'
 }
@@ -73,6 +73,6 @@ to_healthy_methods = {
 	'deep fry': 'stir fry',
 	'grill' : 'steam',
 	'barbeque' : 'bake',
-	'roast' : 'bake' 
+	'roast' : 'bake',
 }
 
