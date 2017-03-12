@@ -9,7 +9,7 @@ import coding_util as cu
 # test urls
 recipe_url = 'http://allrecipes.com/recipe/235710/chef-johns-ricotta-meatballs/?clickId=right%20rail%200&internalSource=rr_feed_recipe&referringId=235710&referringContentType=recipe'
 rec = 'http://allrecipes.com/recipe/191793/country-fried-steak/?internalSource=hub%20recipe&referringContentType=search%20results&clickId=cardslot%201'
-
+rec2 = 'http://allrecipes.com/recipe/241105/sausage-hash-brown-breakfast-casserole/?clickId=right%20rail%202&internalSource=rr_feed_recipe&referringId=241105&referringContentType=recipe'
 # probably a better way to do this and be able to exclude plurals
 measurements = ['cup', 'cups', 'teaspoon', 'teaspoons', 'tablespoon','tablespoons','quart','quarts','gallon', 'gallons',
                 'litre','litres', 'pint', 'pints', 'pinch', 'pinches', 'pound', 'pounds', 'ounce', 'ounces' 'fluid ounce', 'fluid ounces']
@@ -51,7 +51,7 @@ cooking_tools_two = ['baking sheet', 'barbecue grill', 'basting brush', 'bread b
 descriptors = ['Fresh', 'Natural', 'Pure', 'Traditional', 'Original', 'Authentic', 'Real', 'Genuine',
 'Home(.*)made', 'Farmhouse', 'Hand(.*)made', 'Premium', 'Finest', 'Quality', 'Best', 'crushed', 'all-purpose',
                'Montreal', 'cube','packet','dry', 'dried', 'freshly', 'ground', 'packed','chopped', 'Italian',
-               'jar','whole milk', 'skim milk', 'whole'] # may need to remove 'whole milk' in case there is an ingredient 'whole milk'
+               'jar','whole milk', 'skim', 'whole','half','crushed','shredded', 'frozen', 'thawed'] # may need to remove 'whole milk' in case there is an ingredient 'whole milk'
 
 preparation = ['bake', 'barbecue', 'baste', 'beat', 'bind', 'blanch', 'blend', 'boil', 
 'bone', 'braise', 'bread', 'broil', 'brown', 'brush', 'candy', 'caramelize', 'chill', 
