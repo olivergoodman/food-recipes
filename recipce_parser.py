@@ -372,4 +372,4 @@ def main(url):
 #comment
 
 # print json.dumps(main(hummus_rec), indent=2)
-print parse_ingredient('1 (19 ounce) can garbanzo beans, half the liquid reserved')
+# print parse_ingredient('1 (19 ounce) can garbanzo beans, half the liquid reserved')
