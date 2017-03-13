@@ -145,7 +145,7 @@ def parse_ingredient(ln):
     preparation = ''
 
     i = 1
-    print lst
+    # print lst
     if '/' in lst[i]:
         quantity += ' {0}'.format(lst[1])
         i = 2
@@ -362,5 +362,5 @@ def main(url):
     return steps_dict
 #comment
 
-print json.dumps(main(recipe_url), indent=2)
+# print json.dumps(main(recipe_url), indent=2)
 # print parse_ingredient('16 ounces ricotta cheese')
