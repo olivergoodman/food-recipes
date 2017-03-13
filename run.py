@@ -3,8 +3,8 @@ from transformations import transform_to_vegetarian, transform_from_vegetarian, 
 from coding_util import print_recipe_readable
 import json
 
-### ricotta meatballs: http://allrecipes.com/recipe/235710/chef-johns-ricotta-meatballs/?clickId=right%20rail%200&internalSource=rr_feed_recipe&referringId=235710&referringContentType=recipe
-### sausage_casserole: http://allrecipes.com/recipe/241105/sausage-hash-brown-breakfast-casserole/?clickId=right%20rail%202&internalSource=rr_feed_recipe&referringId=241105&referringContentType=recipe
+### ricotta meatballs: http://allrecipes.com/recipe/235710/chef-johns-ricotta-meatballs/
+### sausage casserole: http://allrecipes.com/recipe/241105/sausage-hash-brown-breakfast-casserole/
 ### house chick fried rice: http://allrecipes.com/recipe/18294/house-fried-rice/
 
 if __name__ == "__main__":

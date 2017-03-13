@@ -55,12 +55,12 @@ cooking_tools_two = ['baking sheet', 'baking dish', 'barbecue grill', 'basting b
 # need to change case... or ignore case
 descriptors = ['Authentic', 'Best', 'Farmhouse', 'Finest', 'Fresh', 'Genuine', 'Hand(.*)made', 'Home(.*)made',
                'Italian', 'Montreal', 'Natural', 'Original', 'Premium', 'Pure', 'Quality', 'Real', 'Traditional',
-               'all-purpose', 'boneless', 'canned', 'extra', 'fresh', 'half', 'heavy','jar', 'large', 'medium',
+               'all-purpose', 'boneless', 'canned', 'extra', 'freshly', 'half', 'heavy','jar', 'large', 'medium',
                'package', 'packaged', 'packed', 'packet', 'prepared', 'skim', 'skinless', 'skin-on','small',
                'thinly', 'thick','to taste', 'whole milk', 'whole','2%']
                 # may need to remove 'whole milk' in case there is an ingredient 'whole milk'
 preparations = [ 'baked', 'beaten','browned', 'chopped', 'clarified', 'crushed', 'crushed', 'coarsely','cube', 'cut','diced','dried', 'dry',
-            'deveined','finely', 'fine', 'freshly', 'frozen', 'grated','ground', 'halves', 'halved','mashed', 'minced', 'poached',
+            'deveined','finely', 'fine', 'freshly','fresh', 'frozen', 'grated','ground', 'halves', 'halved','mashed', 'minced', 'poached',
                  'uncooked','cooked','peeled','pureed', 'seared', 'sliced', 'shelled', 'shredded','stewed','thawed', 'quarters',
                  'quartered', 'rinsed', 'scalloped','unbaked','whisked','whipped']
 
@@ -189,7 +189,7 @@ def parse_ingredient(ln):
             item = item.replace(p,'')
             item = item.strip(' ')
             # item = re.sub(' +',' ',item)
-    preparation = preparation.strip(' ')
+
 
     # handle descriptors, search in/remove from preparation
     for d in descriptors:
@@ -203,6 +203,7 @@ def parse_ingredient(ln):
             item = item.strip(' ')
             item = re.sub(' +',' ',item)
     descriptor = descriptor.strip(' ')
+    preparation = preparation.strip(' ')
     item = item.translate(None,string.punctuation)
     item = ' '.join([word for word in item.split() if word not in stopwords])
     return item, quantity, measurement, descriptor, preparation
