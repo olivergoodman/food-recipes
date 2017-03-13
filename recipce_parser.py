@@ -195,7 +195,7 @@ def parse_ingredient(ln):
         if d in preparation and d not in descriptor:
             descriptor += ' {0}'.format(d)
             preparation = preparation.replace(d,'')
-            preparation = re.sub(' +',' ',preparation)g
+            preparation = re.sub(' +',' ',preparation)
         if d in item and d not in descriptor:
             descriptor += ' {0}'.format(d)
             item = item.replace(d,'')
