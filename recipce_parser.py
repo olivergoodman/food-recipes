@@ -6,16 +6,17 @@ import string
 import coding_util as cu
 from coding_util import primary_cooking_methods
 from coding_util import other_cooking_methods
+from coding_util import stopwords
 
 # test urls
 recipe_url = 'http://allrecipes.com/recipe/50761/pancetta-wrapped-shrimp-with-chipotle-vinaigrette-and-cilantro-oil/?internalSource=hub%20recipe&referringContentType=search%20results&clickId=cardslot%201'
 rec = 'http://allrecipes.com/recipe/191793/country-fried-steak/?internalSource=hub%20recipe&referringContentType=search%20results&clickId=cardslot%201'
 rec2 = 'http://allrecipes.com/recipe/241105/sausage-hash-brown-breakfast-casserole/?clickId=right%20rail%202&internalSource=rr_feed_recipe&referringId=241105&referringContentType=recipe'
-c_teriyaki = 'http://allrecipes.com/recipe/9023/baked-teriyaki-chicken/?internalSource=staff%20pick&referringId=80&referringContentType=recipe%20hub&clickId=cardslot%202'
+chic_friedrice = 'http://allrecipes.com/recipe/18294/house-fried-rice/'
 hummus_rec = 'http://allrecipes.com/recipe/26921/real-hummus/'
 measurements = ['bunch','cup', 'cups', 'clove', 'cloves','teaspoon', 'teaspoons', 'tablespoon','tablespoons','quart','quarts','gallon', 'gallons',
                 'litre','litres', 'pint', 'pints', 'pinch', 'pinches', 'pound', 'pounds', 'ounce', 'ounces', 'fluid ounce', 'fluid ounces',
-                'slices']
+                'slices', 'sprig','sprigs']
 time_units = ['seconds*', 'minutes*','hours*']
 # cooking_method_terms
 cooking_methods = ['AL DENTE', 'BAKE', 'BARBECUE', 'BASTE', 'BATTER', 'BEAT', 'BLANCH', 
@@ -55,12 +56,12 @@ cooking_tools_two = ['baking sheet', 'baking dish', 'barbecue grill', 'basting b
 descriptors = ['Authentic', 'Best', 'Farmhouse', 'Finest', 'Fresh', 'Genuine', 'Hand(.*)made', 'Home(.*)made',
                'Italian', 'Montreal', 'Natural', 'Original', 'Premium', 'Pure', 'Quality', 'Real', 'Traditional',
                'all-purpose', 'boneless', 'canned', 'extra', 'fresh', 'half', 'heavy','jar', 'large', 'medium',
-               'package', 'packaged', 'packed', 'packet', 'prepared', 'skim', 'skinless','small',
+               'package', 'packaged', 'packed', 'packet', 'prepared', 'skim', 'skinless', 'skin-on','small',
                'thinly', 'thick','to taste', 'whole milk', 'whole','2%']
                 # may need to remove 'whole milk' in case there is an ingredient 'whole milk'
 preparations = [ 'baked', 'beaten','browned', 'chopped', 'clarified', 'crushed', 'crushed', 'coarsely','cube', 'cut','diced','dried', 'dry',
-            'finely', 'fine', 'freshly', 'frozen', 'grated','ground', 'halves', 'halved','mashed', 'minced', 'poached',
-                 'peeled','pureed', 'seared', 'sliced', 'shelled', 'shredded','stewed','thawed', 'quarters',
+            'deveined','finely', 'fine', 'freshly', 'frozen', 'grated','ground', 'halves', 'halved','mashed', 'minced', 'poached',
+                 'uncooked','cooked','peeled','pureed', 'seared', 'sliced', 'shelled', 'shredded','stewed','thawed', 'quarters',
                  'quartered', 'rinsed', 'scalloped','unbaked','whisked','whipped']
 
 preparation1 = ['bake', 'baked', 'barbecue', 'barbecued', 'baste', 'beat', 'bind', 'blanch', 'blend', 'boil',
@@ -202,6 +203,8 @@ def parse_ingredient(ln):
             item = item.strip(' ')
             item = re.sub(' +',' ',item)
     descriptor = descriptor.strip(' ')
+    item = item.translate(None,string.punctuation)
+    item = ' '.join([word for word in item.split() if word not in stopwords])
     return item, quantity, measurement, descriptor, preparation
 
 def ingredients_to_dict(ing_list):
@@ -371,5 +374,5 @@ def main(url):
     return steps_dict
 #comment
 
-# print json.dumps(main(hummus_rec), indent=2)
+# print json.dumps(main(chic_friedrice), indent=2)
 # print parse_ingredient('1 (19 ounce) can garbanzo beans, half the liquid reserved')
