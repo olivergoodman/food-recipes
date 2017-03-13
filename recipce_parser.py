@@ -8,12 +8,14 @@ from coding_util import primary_cooking_methods
 from coding_util import other_cooking_methods
 
 # test urls
-recipe_url = 'http://allrecipes.com/recipe/235710/chef-johns-ricotta-meatballs/?clickId=right%20rail%200&internalSource=rr_feed_recipe&referringId=235710&referringContentType=recipe'
+recipe_url = 'http://allrecipes.com/recipe/50761/pancetta-wrapped-shrimp-with-chipotle-vinaigrette-and-cilantro-oil/?internalSource=hub%20recipe&referringContentType=search%20results&clickId=cardslot%201'
 rec = 'http://allrecipes.com/recipe/191793/country-fried-steak/?internalSource=hub%20recipe&referringContentType=search%20results&clickId=cardslot%201'
 rec2 = 'http://allrecipes.com/recipe/241105/sausage-hash-brown-breakfast-casserole/?clickId=right%20rail%202&internalSource=rr_feed_recipe&referringId=241105&referringContentType=recipe'
-# probably a better way to do this and be able to exclude plurals
-measurements = ['cup', 'cups', 'teaspoon', 'teaspoons', 'tablespoon','tablespoons','quart','quarts','gallon', 'gallons',
-                'litre','litres', 'pint', 'pints', 'pinch', 'pinches', 'pound', 'pounds', 'ounce', 'ounces', 'fluid ounce', 'fluid ounces']
+c_teriyaki = 'http://allrecipes.com/recipe/9023/baked-teriyaki-chicken/?internalSource=staff%20pick&referringId=80&referringContentType=recipe%20hub&clickId=cardslot%202'
+hummus_rec = 'http://allrecipes.com/recipe/26921/real-hummus/'
+measurements = ['bunch','cup', 'cups', 'clove', 'cloves','teaspoon', 'teaspoons', 'tablespoon','tablespoons','quart','quarts','gallon', 'gallons',
+                'litre','litres', 'pint', 'pints', 'pinch', 'pinches', 'pound', 'pounds', 'ounce', 'ounces', 'fluid ounce', 'fluid ounces',
+                'slices']
 time_units = ['seconds*', 'minutes*','hours*']
 # cooking_method_terms
 cooking_methods = ['AL DENTE', 'BAKE', 'BARBECUE', 'BASTE', 'BATTER', 'BEAT', 'BLANCH', 
@@ -52,12 +54,14 @@ cooking_tools_two = ['baking sheet', 'baking dish', 'barbecue grill', 'basting b
 # need to change case... or ignore case
 descriptors = ['Authentic', 'Best', 'Farmhouse', 'Finest', 'Fresh', 'Genuine', 'Hand(.*)made', 'Home(.*)made',
                'Italian', 'Montreal', 'Natural', 'Original', 'Premium', 'Pure', 'Quality', 'Real', 'Traditional',
-               'all-purpose', 'boneless','half', 'jar', 'large', 'medium', 'package', 'packaged', 'packed', 'packet',
-               'prepared', 'skim', 'skinless','small','whole milk', 'whole']
+               'all-purpose', 'boneless', 'canned', 'extra', 'fresh', 'half', 'heavy','jar', 'large', 'medium',
+               'package', 'packaged', 'packed', 'packet', 'prepared', 'skim', 'skinless','small',
+               'thinly', 'thick','to taste', 'whole milk', 'whole','2%']
                 # may need to remove 'whole milk' in case there is an ingredient 'whole milk'
-preparations = [ 'beaten','browned', 'chopped', 'clarified', 'crushed', 'crushed', 'coarsely','cube', 'cut','diced','dried', 'dry',
+preparations = [ 'baked', 'beaten','browned', 'chopped', 'clarified', 'crushed', 'crushed', 'coarsely','cube', 'cut','diced','dried', 'dry',
             'finely', 'fine', 'freshly', 'frozen', 'grated','ground', 'halves', 'halved','mashed', 'minced', 'poached',
-                 'pureed', 'seared', 'shredded','stewed',  'thawed', 'quarters', 'quartered','scalloped','whisked','whipped']
+                 'peeled','pureed', 'seared', 'sliced', 'shelled', 'shredded','stewed','thawed', 'quarters',
+                 'quartered', 'rinsed', 'scalloped','unbaked','whisked','whipped']
 
 preparation1 = ['bake', 'baked', 'barbecue', 'barbecued', 'baste', 'beat', 'bind', 'blanch', 'blend', 'boil',
 'bone', 'braise', 'bread', 'broil', 'brown', 'brush', 'candy', 'caramelize', 'chill', 
@@ -143,12 +147,14 @@ def parse_ingredient(ln):
     measurement = []
     descriptor = ''
     preparation = ''
-
+    item = ''
     i = 1
     # print lst
     if '/' in lst[i]:
         quantity += ' {0}'.format(lst[1])
         i = 2
+    # turn quantity to float
+    quantity = frac_to_dec(quantity)
     if '(' in lst[i]: # case where measurement has parens (e.g. '(19 oz can of beans)')
         k = i
         end = False
@@ -162,6 +168,9 @@ def parse_ingredient(ln):
     elif lst[i] in measurements:
         measurement = lst[i]
         i += 1
+    elif quantity == 0.0 and 'to taste' in ln:
+        measurement = ''
+        i = 0
     else:
         measurement = ''
         i = 1
@@ -185,15 +194,15 @@ def parse_ingredient(ln):
     for d in descriptors:
         if d in preparation and d not in descriptor:
             descriptor += ' {0}'.format(d)
-            preparation = item.replace(d,'')
-            preparation = re.sub(' +',' ',preparation)
+            preparation = preparation.replace(d,'')
+            preparation = re.sub(' +',' ',preparation)g
         if d in item and d not in descriptor:
             descriptor += ' {0}'.format(d)
             item = item.replace(d,'')
             item = item.strip(' ')
             item = re.sub(' +',' ',item)
     descriptor = descriptor.strip(' ')
-    return item, frac_to_dec(quantity), measurement, descriptor, preparation
+    return item, quantity, measurement, descriptor, preparation
 
 def ingredients_to_dict(ing_list):
     # need to include cooking methods/ cooking tools pulled directions.... TB done later
@@ -362,5 +371,5 @@ def main(url):
     return steps_dict
 #comment
 
-# print json.dumps(main(recipe_url), indent=2)
-# print parse_ingredient('16 ounces ricotta cheese')
+# print json.dumps(main(hummus_rec), indent=2)
+print parse_ingredient('1 (19 ounce) can garbanzo beans, half the liquid reserved')

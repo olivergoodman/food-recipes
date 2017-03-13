@@ -5,6 +5,7 @@ import json
 
 ### ricotta meatballs: http://allrecipes.com/recipe/235710/chef-johns-ricotta-meatballs/?clickId=right%20rail%200&internalSource=rr_feed_recipe&referringId=235710&referringContentType=recipe
 ### sausage_casserole: http://allrecipes.com/recipe/241105/sausage-hash-brown-breakfast-casserole/?clickId=right%20rail%202&internalSource=rr_feed_recipe&referringId=241105&referringContentType=recipe
+### c_teriyaki = 'http://allrecipes.com/recipe/9023/baked-teriyaki-chicken/?internalSource=staff%20pick&referringId=80&referringContentType=recipe%20hub&clickId=cardslot%202'
 
 
 if __name__ == "__main__":
